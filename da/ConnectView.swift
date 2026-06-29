@@ -1,10 +1,12 @@
 import SwiftUI
+import StoreKit
 
 struct ConnectView: View {
     @Environment(\.theme) var t
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var copiedFlash: Bool = false
+    @State private var importInFlight: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -106,10 +108,11 @@ struct ConnectView: View {
 
     private var actions: some View {
         VStack(spacing: 11) {
-            PrimaryButton(title: "Импортировать в Happ", icon: "download",
+            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
+                          icon: "download",
                           action: openInHapp)
-                .disabled(session.subscriptionURL == nil)
-                .opacity(session.subscriptionURL == nil ? 0.55 : 1)
+                .disabled(session.subscriptionURL == nil || importInFlight)
+                .opacity((session.subscriptionURL == nil || importInFlight) ? 0.55 : 1)
 
             PrimaryButton(title: "Скачать Happ", icon: "arrowR",
                           kind: .secondary, action: openHappStore)
@@ -157,23 +160,45 @@ struct ConnectView: View {
     }
 
     private func openInHapp() {
-        guard let s = session.subscriptionURL?.url else { return }
-        // Happ deep-link: happ://add/<base64url-encoded subscription URL>
-        let encoded = Data(s.utf8).base64EncodedString()
-            .replacingOccurrences(of: "+", with: "-")
-            .replacingOccurrences(of: "/", with: "_")
-            .replacingOccurrences(of: "=", with: "")
-        if let url = URL(string: "happ://add/\(encoded)") {
-            openURL(url) { ok in
-                if !ok { openHappStore() }
+        guard !importInFlight else { return }
+        importInFlight = true
+        Task {
+            // The backend builds the encrypted happ://crypt5/… link (single
+            // source of truth — same logic the website uses). We just open it.
+            let link = await session.happImportLink()
+            await MainActor.run {
+                importInFlight = false
+                guard let link, let url = URL(string: link) else {
+                    openHappStore()   // no link → at least send them to install Happ
+                    return
+                }
+                openURL(url) { ok in
+                    if !ok { openHappStore() }   // Happ not installed
+                }
             }
         }
     }
 
+    /// Happ ships as two separate App Store apps — Global and a Russia-only
+    /// listing (different bundle IDs). The happ:// scheme is shared, so the
+    /// import deep-link doesn't branch; only the *download* link does. Pick by
+    /// the real App Store storefront, not the phone's language.
     private func openHappStore() {
-        if let url = URL(string: "https://apps.apple.com/app/happ-proxy-utility/id6504287215") {
-            openURL(url)
+        Task {
+            let ru = await isRussianStorefront()
+            let region = ru ? "ru" : "us"
+            let appID  = ru ? "id6783623643" : "id6504287215"
+            if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
+                await MainActor.run { openURL(url) }
+            }
         }
+    }
+
+    private func isRussianStorefront() async -> Bool {
+        if let cc = await Storefront.current?.countryCode {
+            return cc.uppercased() == "RUS"   // ISO-3166 alpha-3
+        }
+        return Locale.current.region?.identifier.uppercased() == "RU"
     }
 
     private var displayURL: String {
