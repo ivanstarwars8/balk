@@ -1,6 +1,6 @@
 import Foundation
 import Security
-import UIKit
+import StoreKit
 
 enum KeychainStore {
     static let service = "com.badrimgu.lk"
@@ -51,26 +51,16 @@ enum KeychainStore {
     }
 }
 
-enum DeviceInfo {
-    static var hwid: String {
-        if let existing = KeychainStore.get("hwid") { return existing }
-        let new = UUID().uuidString
-        KeychainStore.set(new, key: "hwid")
-        return new
-    }
-
-    static var osVersion: String { UIDevice.current.systemVersion }
-
-    static var model: String {
-        var sys = utsname()
-        uname(&sys)
-        let mirror = Mirror(reflecting: sys.machine)
-        var name = ""
-        for child in mirror.children {
-            if let v = child.value as? Int8, v != 0 {
-                name.append(Character(UnicodeScalar(UInt8(v))))
-            }
+enum AppStoreRegion {
+    /// Happ ships as two separate App Store apps — a Russia-only listing and a
+    /// Global one (different bundle IDs). We hand out the right download link
+    /// by the user's real App Store storefront, not the phone's language.
+    /// Read it at the moment of use — the storefront can change if the user
+    /// switches their Apple ID country.
+    static func isRussia() async -> Bool {
+        if let cc = await Storefront.current?.countryCode {
+            return cc.uppercased() == "RUS"   // ISO 3166-1 alpha-3
         }
-        return name.isEmpty ? UIDevice.current.model : name
+        return Locale.current.region?.identifier.uppercased() == "RU"
     }
 }

@@ -1,5 +1,4 @@
 import SwiftUI
-import StoreKit
 
 struct ConnectView: View {
     @Environment(\.theme) var t
@@ -185,20 +184,13 @@ struct ConnectView: View {
     /// the real App Store storefront, not the phone's language.
     private func openHappStore() {
         Task {
-            let ru = await isRussianStorefront()
+            let ru = await AppStoreRegion.isRussia()
             let region = ru ? "ru" : "us"
             let appID  = ru ? "id6783623643" : "id6504287215"
             if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
                 await MainActor.run { openURL(url) }
             }
         }
-    }
-
-    private func isRussianStorefront() async -> Bool {
-        if let cc = await Storefront.current?.countryCode {
-            return cc.uppercased() == "RUS"   // ISO-3166 alpha-3
-        }
-        return Locale.current.region?.identifier.uppercased() == "RU"
     }
 
     private var displayURL: String {
