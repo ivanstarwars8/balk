@@ -118,6 +118,19 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Pulls the ready-to-open Happ import deep link from the backend
+    /// (encrypted happ://crypt5/… built server-side). The client never
+    /// encodes the subscription URL itself — single source of truth.
+    func happImportLink() async -> String? {
+        do {
+            let r: ImportLinkResponse = try await APIClient.shared.get("/import_link")
+            return r.link
+        } catch {
+            lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            return nil
+        }
+    }
+
     func lkSession(go: String) async -> URL? {
         do {
             let r: LKSessionResponse = try await APIClient.shared.post(

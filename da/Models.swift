@@ -89,6 +89,14 @@ struct Device: Codable, Identifiable, Equatable {
 struct LKSessionRequest: Codable { let go: String }
 struct LKSessionResponse: Codable { let url: String }
 
+/// Ready-to-open client import deep link, built server-side
+/// (encrypted happ://crypt5/… via crypto.happ.su, plain fallback).
+struct ImportLinkResponse: Codable {
+    let ok: Bool?
+    let link: String
+    let app: String?
+}
+
 struct APIErrorBody: Codable {
     let error: String?
     let message: String?

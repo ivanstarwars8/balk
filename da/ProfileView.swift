@@ -37,15 +37,16 @@ struct ProfileView: View {
                         }
 
                         GroupCard(label: "Правовое") {
-                            RowItem(icon: "doc", title: "Оферта",
+                            // No payments happen in the iOS app, so the refund
+                            // policy is intentionally omitted here. Links point
+                            // to the real document pages (the bare /offer path
+                            // falls through to the marketing landing).
+                            RowItem(icon: "doc", title: "Условия использования",
                                     trailing: AnyView(QXIcon(name: "link", size: 16, color: t.faint, weight: .medium)),
-                                    onTap: { openURL(URL(string: "https://badrimgu.com/offer")!) })
-                            RowItem(icon: "refresh", title: "Условия возврата",
-                                    trailing: AnyView(QXIcon(name: "link", size: 16, color: t.faint, weight: .medium)),
-                                    onTap: { openURL(URL(string: "https://badrimgu.com/refund")!) })
+                                    onTap: { openURL(URL(string: "https://badrimgu.com/terms/")!) })
                             RowItem(icon: "shield", title: "Конфиденциальность", last: true,
                                     trailing: AnyView(QXIcon(name: "link", size: 16, color: t.faint, weight: .medium)),
-                                    onTap: { openURL(URL(string: "https://badrimgu.com/privacy")!) })
+                                    onTap: { openURL(URL(string: "https://badrimgu.com/privacy/")!) })
                         }
 
                         PrimaryButton(title: "Выйти", icon: "logout", kind: .secondary) {

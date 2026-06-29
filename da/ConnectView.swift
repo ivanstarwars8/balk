@@ -5,6 +5,7 @@ struct ConnectView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var copiedFlash: Bool = false
+    @State private var importInFlight: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -17,6 +18,7 @@ struct ConnectView: View {
                         expiredCard
                     } else {
                         actions
+                        stepsCard
                         linkRow
                     }
                 }
@@ -39,6 +41,39 @@ struct ConnectView: View {
             if session.subscriptionURL == nil {
                 await session.loadSubscriptionURL()
             }
+        }
+    }
+
+    private var stepsCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Как подключиться")
+                .font(AppFont.ui(14, .semibold))
+                .foregroundStyle(t.text)
+            stepRow(1, "Установите Happ из App Store — кнопка «Скачать Happ» выше (для России и остального мира ссылка подберётся сама).")
+            stepRow(2, "Нажмите «Импортировать в Happ» — конфигурация добавится в приложение автоматически.")
+            stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(t.surface)
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func stepRow(_ n: Int, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: 11) {
+            ZStack {
+                Circle().fill(t.accentSoft).frame(width: 24, height: 24)
+                Text("\(n)")
+                    .font(AppFont.ui(13, .semibold))
+                    .foregroundStyle(t.accent)
+            }
+            Text(text)
+                .font(AppFont.ui(13.5))
+                .foregroundStyle(t.muted)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
         }
     }
 
@@ -106,10 +141,11 @@ struct ConnectView: View {
 
     private var actions: some View {
         VStack(spacing: 11) {
-            PrimaryButton(title: "Импортировать в Happ", icon: "download",
+            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
+                          icon: "download",
                           action: openInHapp)
-                .disabled(session.subscriptionURL == nil)
-                .opacity(session.subscriptionURL == nil ? 0.55 : 1)
+                .disabled(session.subscriptionURL == nil || importInFlight)
+                .opacity((session.subscriptionURL == nil || importInFlight) ? 0.55 : 1)
 
             PrimaryButton(title: "Скачать Happ", icon: "arrowR",
                           kind: .secondary, action: openHappStore)
@@ -157,22 +193,37 @@ struct ConnectView: View {
     }
 
     private func openInHapp() {
-        guard let s = session.subscriptionURL?.url else { return }
-        // Happ deep-link: happ://add/<base64url-encoded subscription URL>
-        let encoded = Data(s.utf8).base64EncodedString()
-            .replacingOccurrences(of: "+", with: "-")
-            .replacingOccurrences(of: "/", with: "_")
-            .replacingOccurrences(of: "=", with: "")
-        if let url = URL(string: "happ://add/\(encoded)") {
-            openURL(url) { ok in
-                if !ok { openHappStore() }
+        guard !importInFlight else { return }
+        importInFlight = true
+        Task {
+            // The backend builds the encrypted happ://crypt5/… link (single
+            // source of truth — same logic the website uses). We just open it.
+            let link = await session.happImportLink()
+            await MainActor.run {
+                importInFlight = false
+                guard let link, let url = URL(string: link) else {
+                    openHappStore()   // no link → at least send them to install Happ
+                    return
+                }
+                openURL(url) { ok in
+                    if !ok { openHappStore() }   // Happ not installed
+                }
             }
         }
     }
 
+    /// Happ ships as two separate App Store apps — Global and a Russia-only
+    /// listing (different bundle IDs). The happ:// scheme is shared, so the
+    /// import deep-link doesn't branch; only the *download* link does. Pick by
+    /// the real App Store storefront, not the phone's language.
     private func openHappStore() {
-        if let url = URL(string: "https://apps.apple.com/app/happ-proxy-utility/id6504287215") {
-            openURL(url)
+        Task {
+            let ru = await AppStoreRegion.isRussia()
+            let region = ru ? "ru" : "us"
+            let appID  = ru ? "id6783623643" : "id6504287215"
+            if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
+                await MainActor.run { openURL(url) }
+            }
         }
     }
 
