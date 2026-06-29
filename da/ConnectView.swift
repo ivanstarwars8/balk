@@ -18,6 +18,7 @@ struct ConnectView: View {
                         expiredCard
                     } else {
                         actions
+                        stepsCard
                         linkRow
                     }
                 }
@@ -40,6 +41,39 @@ struct ConnectView: View {
             if session.subscriptionURL == nil {
                 await session.loadSubscriptionURL()
             }
+        }
+    }
+
+    private var stepsCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Как подключиться")
+                .font(AppFont.ui(14, .semibold))
+                .foregroundStyle(t.text)
+            stepRow(1, "Установите Happ из App Store — кнопка «Скачать Happ» выше (для России и остального мира ссылка подберётся сама).")
+            stepRow(2, "Нажмите «Импортировать в Happ» — конфигурация добавится в приложение автоматически.")
+            stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(t.surface)
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func stepRow(_ n: Int, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: 11) {
+            ZStack {
+                Circle().fill(t.accentSoft).frame(width: 24, height: 24)
+                Text("\(n)")
+                    .font(AppFont.ui(13, .semibold))
+                    .foregroundStyle(t.accent)
+            }
+            Text(text)
+                .font(AppFont.ui(13.5))
+                .foregroundStyle(t.muted)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
         }
     }
 
