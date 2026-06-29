@@ -4,27 +4,88 @@
     "" : {
 
     },
-    " найден. Введите пароль." : {
+    "%lld" : {
 
     },
-    ". Отзовите старое, чтобы освободить место." : {
-
-    },
-    "%lld устройств%@" : {
+    "3 мес" : {
       "localizations" : {
-        "ru" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld устройств%2$@"
+            "state" : "translated",
+            "value" : "3 mo"
+          }
+        }
+      }
+    },
+    "6 мес" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 mo"
           }
         }
       }
     },
     "BADRIMGU" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BADRIMGU"
+          }
+        }
+      }
     },
     "BADRIMGU · iOS 1.0.0 · ЛК" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BADRIMGU · iOS 1.0.0 · Account"
+          }
+        }
+      }
+    },
+    "Premium · 3 мес" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium · 3 months"
+          }
+        }
+      }
+    },
+    "Premium · 6 мес" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium · 6 months"
+          }
+        }
+      }
+    },
+    "Premium · год" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium · year"
+          }
+        }
+      }
+    },
+    "Premium · мес" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium · month"
+          }
+        }
+      }
     },
     "Аккаунт" : {
       "extractionState" : "stale",
@@ -37,16 +98,22 @@
         }
       }
     },
-    "Аккаунт " : {
-
-    },
     "Аккаунт временно заблокирован (5 ошибок подряд). Подождите 30 минут." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Account temporarily locked (5 failed attempts). Try again in 30 minutes."
+          }
+        }
+      }
+    },
+    "Аккаунт найден. Введите пароль." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account found. Enter your password."
           }
         }
       }
@@ -62,7 +129,6 @@
       }
     },
     "Активна" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -94,8 +160,18 @@
         }
       }
     },
-    "Войдите в аккаунт заново" : {
+    "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ." : {
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Happ, choose a server and tap “Connect”. From there the VPN is managed in Happ."
+          }
+        }
+      }
+    },
+    "Войдите в аккаунт заново" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -159,13 +235,73 @@
         }
       }
     },
+    "ГБ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GB"
+          }
+        }
+      }
+    },
     "Год" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Year"
+          }
+        }
+      }
+    },
+    "Готовим ссылку…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing link…"
+          }
+        }
+      }
+    },
+    "день" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "day"
+          }
+        }
+      }
+    },
+    "дней" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        }
+      }
+    },
+    "дня" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "days"
+          }
+        }
+      }
+    },
+    "до" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "until"
           }
         }
       }
@@ -181,7 +317,6 @@
       }
     },
     "Загружаем ссылку…" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -222,13 +357,32 @@
         }
       }
     },
+    "истекла" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "expired"
+          }
+        }
+      }
+    },
     "Истекла" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expired"
+          }
+        }
+      }
+    },
+    "Как подключиться" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to connect"
           }
         }
       }
@@ -254,8 +408,15 @@
         }
       }
     },
-    "Лимит тарифа — " : {
-
+    "Лимит тарифа — %@ устройств. Отзовите старое, чтобы освободить место." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan limit — %@ devices. Revoke an old one to free up a slot."
+          }
+        }
+      }
     },
     "Личный кабинет" : {
       "localizations" : {
@@ -268,12 +429,22 @@
       }
     },
     "Мес" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Month"
+          }
+        }
+      }
+    },
+    "Нажмите «Импортировать в Happ» — конфигурация добавится в приложение автоматически." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Import into Happ” — the configuration is added to the app automatically."
           }
         }
       }
@@ -299,8 +470,17 @@
         }
       }
     },
+    "Не удалось прочитать ответ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t read the response"
+          }
+        }
+      }
+    },
     "Неверная почта или пароль" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -311,7 +491,6 @@
       }
     },
     "Некорректный параметр" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -327,6 +506,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No account?"
+          }
+        }
+      }
+    },
+    "Нет сети" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No connection"
           }
         }
       }
@@ -380,6 +569,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terms of Service"
+          }
+        }
+      }
+    },
+    "Ошибка" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
+    "Ошибка сервера" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server error"
           }
         }
       }
@@ -447,7 +656,6 @@
       }
     },
     "Подписка истекла или отсутствует" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -617,7 +825,6 @@
       }
     },
     "Сессия истекла" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -660,7 +867,6 @@
       }
     },
     "Слишком много запросов, попробуйте позже" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -745,7 +951,6 @@
       }
     },
     "Триал" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -777,6 +982,28 @@
         }
       }
     },
+    "Условия использования" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Use"
+          }
+        }
+      }
+    },
+    "Установите Happ из App Store — кнопка «Скачать Happ» выше (для России и остального мира ссылка подберётся сама)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install Happ from the App Store — use the “Download Happ” button above (the right link for Russia or the rest of the world is picked automatically)."
+          }
+        }
+      }
+    },
     "Устройства" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -789,7 +1016,6 @@
       }
     },
     "Устройство" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -800,7 +1026,6 @@
       }
     },
     "Устройство не найдено" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

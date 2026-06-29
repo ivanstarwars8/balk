@@ -50,27 +50,18 @@ struct DevicesView: View {
     }
 
     private var intro: some View {
-        let limit = session.subscription?.devices_limit ?? 2
-        return Group {
-            (
-                Text("Лимит тарифа — ")
-                    .foregroundStyle(t.muted)
-                + Text("\(limit) устройств\(limit == 1 ? "о" : (2...4).contains(limit) ? "а" : "")")
-                    .foregroundStyle(t.text)
-                    .fontWeight(.semibold)
-                + Text(". Отзовите старое, чтобы освободить место.")
-                    .foregroundStyle(t.muted)
-            )
+        let limitStr = "\(session.subscription?.devices_limit ?? 2)"
+        return Text("Лимит тарифа — \(limitStr) устройств. Отзовите старое, чтобы освободить место.")
+            .foregroundStyle(t.muted)
             .font(AppFont.ui(14))
             .lineSpacing(3)
-        }
     }
 
     private func deviceTitle(_ d: Device) -> String {
         if let m = d.model, !m.isEmpty { return m }
         if d.platform == "ios" { return "iPhone" }
         if d.platform == "android" { return "Android" }
-        return "Устройство"
+        return String(localized: "Устройство")
     }
 
     private func deviceSub(_ d: Device) -> String {
@@ -85,7 +76,7 @@ struct DevicesView: View {
     private func relativeAgo(_ iso: String) -> String {
         guard let date = ISO8601DateFormatter().date(from: iso) else { return "" }
         let f = RelativeDateTimeFormatter()
-        f.locale = Locale(identifier: "ru")
+        f.locale = Locale.current
         f.unitsStyle = .short
         return f.localizedString(for: date, relativeTo: .now)
     }

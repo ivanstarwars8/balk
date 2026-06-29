@@ -10,11 +10,11 @@ enum APIError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .http(let code, let msg):
-            return msg.isEmpty ? "Ошибка сервера (\(code))" : msg
-        case .noActiveSubscription: return "Подписка истекла или отсутствует"
-        case .unauthenticated: return "Войдите в аккаунт заново"
-        case .noNetwork(let m): return "Нет сети: \(m)"
-        case .decoding(let m): return "Не удалось прочитать ответ: \(m)"
+            return msg.isEmpty ? "\(String(localized: "Ошибка сервера")) (\(code))" : msg
+        case .noActiveSubscription: return String(localized: "Подписка истекла или отсутствует")
+        case .unauthenticated: return String(localized: "Войдите в аккаунт заново")
+        case .noNetwork(let m): return "\(String(localized: "Нет сети")): \(m)"
+        case .decoding(let m): return "\(String(localized: "Не удалось прочитать ответ")): \(m)"
         }
     }
 }
@@ -114,20 +114,20 @@ actor APIClient {
     private func humanizeError(code: String?, status: Int, fallback: String?) -> String {
         if let code {
             switch code {
-            case "invalid_credentials":     return "Неверная почта или пароль"
-            case "account_locked":          return "Аккаунт временно заблокирован (5 ошибок подряд). Подождите 30 минут."
-            case "no_active_subscription":  return "Подписка истекла или отсутствует"
-            case "device_not_found":        return "Устройство не найдено"
-            case "invalid_go":              return "Некорректный параметр"
-            case "rate_limited":            return "Слишком много запросов, попробуйте позже"
+            case "invalid_credentials":     return String(localized: "Неверная почта или пароль")
+            case "account_locked":          return String(localized: "Аккаунт временно заблокирован (5 ошибок подряд). Подождите 30 минут.")
+            case "no_active_subscription":  return String(localized: "Подписка истекла или отсутствует")
+            case "device_not_found":        return String(localized: "Устройство не найдено")
+            case "invalid_go":              return String(localized: "Некорректный параметр")
+            case "rate_limited":            return String(localized: "Слишком много запросов, попробуйте позже")
             case "invalid_token", "token_revoked", "token_expired":
-                                            return "Сессия истекла"
+                                            return String(localized: "Сессия истекла")
             default: break
             }
         }
         if let fb = fallback, !fb.isEmpty { return fb }
-        if let c = code, !c.isEmpty { return "Ошибка: \(c)" }
-        return "Ошибка сервера (\(status))"
+        if let c = code, !c.isEmpty { return "\(String(localized: "Ошибка")): \(c)" }
+        return "\(String(localized: "Ошибка сервера")) (\(status))"
     }
 
     private func perform(method: String, path: String,

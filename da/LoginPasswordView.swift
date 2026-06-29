@@ -28,17 +28,10 @@ struct LoginPasswordView: View {
                     .font(AppFont.title(30, .bold))
                     .tracking(0.2)
                     .foregroundStyle(t.text)
-                (
-                    Text("Аккаунт ")
-                        .foregroundStyle(t.muted)
-                    + Text(email)
-                        .foregroundStyle(t.text)
-                        .fontWeight(.semibold)
-                    + Text(" найден. Введите пароль.")
-                        .foregroundStyle(t.muted)
-                )
-                .font(AppFont.ui(14.5))
-                .lineSpacing(3)
+                Text("Аккаунт найден. Введите пароль.")
+                    .foregroundStyle(t.muted)
+                    .font(AppFont.ui(14.5))
+                    .lineSpacing(3)
             }
             .padding(.top, 18)
 

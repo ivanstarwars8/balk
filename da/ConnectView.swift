@@ -68,7 +68,7 @@ struct ConnectView: View {
                     .font(AppFont.ui(13, .semibold))
                     .foregroundStyle(t.accent)
             }
-            Text(text)
+            Text(LX(text))
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
@@ -228,7 +228,7 @@ struct ConnectView: View {
     }
 
     private var displayURL: String {
-        guard let raw = session.subscriptionURL?.url else { return "Загружаем ссылку…" }
+        guard let raw = session.subscriptionURL?.url else { return String(localized: "Загружаем ссылку…") }
         return raw.replacingOccurrences(of: "https://", with: "")
     }
 }

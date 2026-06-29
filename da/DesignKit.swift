@@ -113,7 +113,7 @@ struct Pill: View {
         let bg: Color = solid ? col : (tone == .muted ? t.surface2 : t.accentSoft)
         let fg: Color = solid ? t.onAccent : col
 
-        Text(text.uppercased())
+        Text(LX(text).uppercased())
             .font(AppFont.mono(10.5, .semibold))
             .tracking(0.6)
             .foregroundStyle(fg)
@@ -141,7 +141,7 @@ struct PrimaryButton: View {
         Button(action: action) {
             HStack(spacing: 9) {
                 if let icon { QXIcon(name: icon, size: 19, color: fg, weight: .medium) }
-                Text(title).font(AppFont.ui(16, .semibold)).tracking(0.2)
+                Text(LX(title)).font(AppFont.ui(16, .semibold)).tracking(0.2)
             }
             .foregroundStyle(fg)
             .frame(maxWidth: fullWidth ? .infinity : nil)
@@ -190,7 +190,7 @@ struct InputField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if let label {
-                Text(label.uppercased())
+                Text(LX(label).uppercased())
                     .font(AppFont.ui(11.5, .semibold))
                     .tracking(1)
                     .foregroundStyle(t.faint)
@@ -201,9 +201,9 @@ struct InputField: View {
                 }
                 Group {
                     if secure {
-                        SecureField(placeholder, text: $value)
+                        SecureField(LX(placeholder), text: $value)
                     } else {
-                        TextField(placeholder, text: $value)
+                        TextField(LX(placeholder), text: $value)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                     }
@@ -258,7 +258,7 @@ struct GroupCard<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
             if let label {
-                Text(label.uppercased())
+                Text(LX(label).uppercased())
                     .font(AppFont.ui(11.5, .semibold))
                     .tracking(1.2)
                     .foregroundStyle(t.faint)
@@ -301,11 +301,11 @@ struct RowItem: View {
                 }
             }
             VStack(alignment: .leading, spacing: 3) {
-                Text(title)
+                Text(LX(title))
                     .font(AppFont.ui(15.5, .medium))
                     .foregroundStyle(t.text)
                 if let subtitle {
-                    Text(subtitle)
+                    Text(LX(subtitle))
                         .font(AppFont.ui(12.5))
                         .foregroundStyle(t.muted)
                         .lineLimit(2)
@@ -349,7 +349,7 @@ struct StatTile: View {
         VStack(alignment: .leading, spacing: 9) {
             HStack(spacing: 7) {
                 QXIcon(name: icon, size: 15, color: tone ?? t.muted, weight: .medium)
-                Text(label)
+                Text(LX(label))
                     .font(AppFont.ui(11.5, .medium))
                     .tracking(0.3)
                     .foregroundStyle(t.muted)

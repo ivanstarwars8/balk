@@ -104,7 +104,7 @@ struct ProfileView: View {
         if let iso = s.expires_at,
            let date = ISO8601DateFormatter().date(from: iso) {
             let f = DateFormatter(); f.dateFormat = "dd.MM.yyyy"
-            return "\(plan) · до \(f.string(from: date))"
+            return "\(plan) · \(String(localized: "до")) \(f.string(from: date))"
         }
         return plan
     }

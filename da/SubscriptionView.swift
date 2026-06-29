@@ -66,7 +66,7 @@ struct SubscriptionView: View {
 
     private func statBlock(label: String, value: String, mono: Bool, valueColor: Color) -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(label.uppercased())
+            Text(LX(label).uppercased())
                 .font(AppFont.ui(11, .semibold))
                 .tracking(0.5)
                 .foregroundStyle(t.faint)
@@ -133,17 +133,19 @@ struct SubscriptionView: View {
 
     private var planTitle: String {
         let p = session.subscription?.plan ?? "—"
-        let map = ["1m": "Premium · мес", "3m": "Premium · 3 мес",
-                   "6m": "Premium · 6 мес", "12m": "Premium · год", "1y": "Premium · год"]
-        return map[p] ?? "Premium · \(p)"
+        let map: [String: String.LocalizationValue] = [
+            "1m": "Premium · мес", "3m": "Premium · 3 мес",
+            "6m": "Premium · 6 мес", "12m": "Premium · год", "1y": "Premium · год"]
+        if let key = map[p] { return String(localized: key) }
+        return "Premium · \(p)"
     }
 
     private var planShortLabel: String {
         switch session.subscription?.plan ?? "" {
-        case "1m": return "Мес"
-        case "3m": return "3 мес"
-        case "6m": return "6 мес"
-        case "12m", "1y": return "Год"
+        case "1m": return String(localized: "Мес")
+        case "3m": return String(localized: "3 мес")
+        case "6m": return String(localized: "6 мес")
+        case "12m", "1y": return String(localized: "Год")
         default: return session.subscription?.plan ?? "—"
         }
     }
@@ -151,9 +153,9 @@ struct SubscriptionView: View {
     private var statusTitle: String {
         let s = session.subscription?.status ?? ""
         switch s {
-        case "active": return "Активна"
-        case "expired": return "Истекла"
-        case "trial": return "Триал"
+        case "active": return String(localized: "Активна")
+        case "expired": return String(localized: "Истекла")
+        case "trial": return String(localized: "Триал")
         case "": return "—"
         default: return s.capitalized
         }
@@ -179,15 +181,15 @@ struct SubscriptionView: View {
         guard let iso = session.subscription?.expires_at,
               let date = ISO8601DateFormatter().date(from: iso) else { return "—" }
         let days = Calendar.current.dateComponents([.day], from: .now, to: date).day ?? 0
-        if days < 0 { return "истекла" }
+        if days < 0 { return String(localized: "истекла") }
         return "\(days) \(pluralizeDays(days))"
     }
 
     private func pluralizeDays(_ n: Int) -> String {
         let m10 = n % 10, m100 = n % 100
-        if m10 == 1 && m100 != 11 { return "день" }
-        if (2...4).contains(m10) && !(12...14).contains(m100) { return "дня" }
-        return "дней"
+        if m10 == 1 && m100 != 11 { return String(localized: "день") }
+        if (2...4).contains(m10) && !(12...14).contains(m100) { return String(localized: "дня") }
+        return String(localized: "дней")
     }
 
     private var devicesLabel: String {
@@ -213,9 +215,10 @@ struct SubscriptionView: View {
     }
 
     private func formatGB(_ bytes: Int64) -> String {
+        let unit = String(localized: "ГБ")
         let gb = Double(bytes) / 1_073_741_824
-        if gb < 0.1 { return "0 ГБ" }
-        if gb < 10 { return String(format: "%.1f ГБ", gb) }
-        return "\(Int(gb)) ГБ"
+        if gb < 0.1 { return "0 \(unit)" }
+        if gb < 10 { return String(format: "%.1f \(unit)", gb) }
+        return "\(Int(gb)) \(unit)"
     }
 }

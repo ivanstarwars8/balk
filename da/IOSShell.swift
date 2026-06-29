@@ -17,7 +17,7 @@ struct IOSNav<Trailing: View>: View {
                     } label: {
                         HStack(spacing: 3) {
                             QXIcon(name: "chevL", size: 22, color: t.accentText, weight: .semibold)
-                            Text(back)
+                            Text(LX(back))
                                 .font(AppFont.ui(17))
                                 .foregroundStyle(t.accentText)
                         }
@@ -31,7 +31,7 @@ struct IOSNav<Trailing: View>: View {
             }
             .frame(minHeight: 36)
 
-            Text(title)
+            Text(LX(title))
                 .font(AppFont.title(32, .bold))
                 .tracking(0.3)
                 .foregroundStyle(t.text)

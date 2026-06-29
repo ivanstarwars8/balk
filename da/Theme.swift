@@ -85,3 +85,12 @@ enum AppFont {
         .system(size: size, weight: weight, design: .default)
     }
 }
+
+/// Localizes a runtime String by treating it as a catalog key.
+/// Components take plain `String`s, so SwiftUI's automatic literal
+/// localization doesn't apply — we look the value up explicitly here.
+/// Strings that aren't keys (numbers, emails, already-localized text)
+/// are returned unchanged.
+func LX(_ s: String) -> String {
+    s.isEmpty ? s : String(localized: String.LocalizationValue(s))
+}

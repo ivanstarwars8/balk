@@ -92,9 +92,9 @@ struct SupportView: View {
             HStack(spacing: 8) {
                 ForEach(chips, id: \.self) { c in
                     Button {
-                        draft = c
+                        draft = LX(c)
                     } label: {
-                        Text(c)
+                        Text(LX(c))
                             .font(AppFont.ui(13, .medium))
                             .foregroundStyle(t.text)
                             .padding(.horizontal, 13)
