@@ -6,7 +6,7 @@ struct SupportView: View {
     @StateObject private var chat = ChatSession()
     @State private var draft: String = ""
 
-    private let chips = ["Не приходит подписка", "Оплата", "Сменить устройство"]
+    private let chips = ["Не приходит подписка", "Сменить устройство"]
 
     var body: some View {
         VStack(spacing: 0) {

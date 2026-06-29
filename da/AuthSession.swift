@@ -7,7 +7,6 @@ final class AuthSession: ObservableObject {
     @Published private(set) var user: AppUser?
     @Published private(set) var subscription: Subscription?
     @Published private(set) var subscriptionURL: SubscriptionURL?
-    @Published private(set) var checkoutURL: String?
     @Published private(set) var devices: [Device] = []
     @Published private(set) var bootstrapping: Bool = true
 
@@ -94,10 +93,8 @@ final class AuthSession: ObservableObject {
         do {
             let s: SubscriptionURL = try await APIClient.shared.get("/subscription")
             self.subscriptionURL = s
-            self.checkoutURL = nil
-        } catch APIError.noActiveSubscription(let url) {
+        } catch APIError.noActiveSubscription {
             self.subscriptionURL = nil
-            self.checkoutURL = url
         } catch {
             lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
         }
@@ -142,7 +139,6 @@ final class AuthSession: ObservableObject {
         self.user = nil
         self.subscription = nil
         self.subscriptionURL = nil
-        self.checkoutURL = nil
         self.devices = []
     }
 

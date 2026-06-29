@@ -16,7 +16,6 @@ struct SubscriptionView: View {
                     planHero
                     trafficCard
                     quickStats
-                    actions
                     extraGroup
                 }
                 .padding(.top, 8)
@@ -114,38 +113,11 @@ struct SubscriptionView: View {
         .padding(.horizontal, 16)
     }
 
-    private var actions: some View {
-        VStack(spacing: 11) {
-            PrimaryButton(title: "Продлить на сайте", icon: "card") {
-                Task {
-                    if let url = await session.lkSession(go: "payment") {
-                        openURL(url)
-                    }
-                }
-            }
-            HStack(spacing: 7) {
-                QXIcon(name: "link", size: 13, color: t.faint, weight: .medium)
-                Text("Откроется badrimgu.com — оплата на сайте")
-                    .font(AppFont.ui(12))
-                    .foregroundStyle(t.muted)
-            }
-        }
-        .padding(.horizontal, 16)
-    }
-
     private var extraGroup: some View {
         GroupCard {
             RowItem(icon: "link", title: "Открыть ЛК на сайте",
                     subtitle: "Вы уже авторизованы",
-                    accent: true, chev: true,
-                    onTap: {
-                        Task {
-                            if let url = await session.lkSession(go: "home") {
-                                openURL(url)
-                            }
-                        }
-                    })
-            RowItem(icon: "clock", title: "История платежей", last: true, chev: true,
+                    accent: true, last: true, chev: true,
                     onTap: {
                         Task {
                             if let url = await session.lkSession(go: "home") {

@@ -13,7 +13,7 @@ struct ConnectView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {
                     happCard
-                    if session.checkoutURL != nil || (session.subscriptionURL == nil && session.subscription?.status == "expired") {
+                    if session.subscriptionURL == nil {
                         expiredCard
                     } else {
                         actions
@@ -86,15 +86,13 @@ struct ConnectView: View {
                     .foregroundStyle(t.text)
                 Spacer()
             }
-            Text("Чтобы получить ссылку для импорта в Happ, продлите подписку на сайте.")
+            Text("Ссылка для импорта в Happ появится здесь, когда подписка станет активной. Управление аккаунтом доступно в личном кабинете на сайте.")
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
-            PrimaryButton(title: "Продлить на сайте", icon: "card") {
+            PrimaryButton(title: "Открыть ЛК на сайте", icon: "link") {
                 Task {
-                    if let direct = session.checkoutURL, let url = URL(string: direct) {
-                        openURL(url)
-                    } else if let url = await session.lkSession(go: "payment") {
+                    if let url = await session.lkSession(go: "home") {
                         openURL(url)
                     }
                 }
