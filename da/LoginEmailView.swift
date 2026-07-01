@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LoginEmailView: View {
     @Environment(\.theme) var t
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var session: AuthSession
     @State private var email: String = ""
     @State private var noAccount: Bool = false
@@ -18,12 +17,12 @@ struct LoginEmailView: View {
                         .frame(width: 72, height: 72)
                     Mark(size: 42)
                 }
-                Text("Личный кабинет")
+                Text("Вход в аккаунт")
                     .font(AppFont.title(28, .bold))
                     .tracking(0.2)
                     .foregroundStyle(t.text)
                     .padding(.top, 20)
-                Text("Войдите по почте — откроется подписка, устройства и поддержка.")
+                Text("Войдите по почте — доступ к вашей конфигурации, устройствам и поддержке.")
                     .font(AppFont.ui(15))
                     .foregroundStyle(t.muted)
                     .multilineTextAlignment(.center)
@@ -41,26 +40,11 @@ struct LoginEmailView: View {
                     .keyboardType(.emailAddress)
 
                 if noAccount {
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack(spacing: 6) {
-                            QXIcon(name: "lock", size: 13, color: t.danger, weight: .medium)
-                            Text("Аккаунт не найден.")
-                                .font(AppFont.ui(12.5))
-                                .foregroundStyle(t.danger)
-                        }
-                        Button {
-                            if let url = URL(string: "https://badrimgu.com/register") {
-                                openURL(url)
-                            }
-                        } label: {
-                            HStack(spacing: 4) {
-                                Text("Зарегистрироваться на badrimgu.com")
-                                    .font(AppFont.ui(13, .semibold))
-                                    .foregroundStyle(t.accentText)
-                                QXIcon(name: "link", size: 13, color: t.accentText, weight: .semibold)
-                            }
-                        }
-                        .buttonStyle(.plain)
+                    HStack(spacing: 6) {
+                        QXIcon(name: "lock", size: 13, color: t.danger, weight: .medium)
+                        Text("Аккаунт не найден. Проверьте адрес почты.")
+                            .font(AppFont.ui(12.5))
+                            .foregroundStyle(t.danger)
                     }
                     .padding(.horizontal, 4)
                 } else if let err = session.lastError {

@@ -65,9 +65,6 @@ struct MainTabs: View {
 
     var body: some View {
         TabView {
-            SubscriptionView()
-                .tabItem { Label("Подписка", systemImage: "checkmark.shield") }
-
             ConnectView()
                 .tabItem { Label("Подключение", systemImage: "qrcode") }
 

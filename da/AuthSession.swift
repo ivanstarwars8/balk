@@ -33,7 +33,7 @@ final class AuthSession: ObservableObject {
     }
 
     /// Returns `true` if email exists. UI uses this to decide whether
-    /// to navigate to password screen or show "register on site" hint.
+    /// to navigate to the password screen or show an "account not found" hint.
     func checkEmail(_ email: String) async -> Bool {
         emailCheckInFlight = true
         lastError = nil

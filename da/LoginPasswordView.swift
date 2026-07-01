@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LoginPasswordView: View {
     @Environment(\.theme) var t
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var session: AuthSession
     let email: String
     var onBack: () -> Void = {}
@@ -93,24 +92,6 @@ struct LoginPasswordView: View {
             }
             .disabled(password.isEmpty || session.loginInFlight)
             .opacity(password.isEmpty ? 0.55 : 1)
-
-            Button {
-                if let url = URL(string: "https://badrimgu.com/register") {
-                    openURL(url)
-                }
-            } label: {
-                HStack(spacing: 4) {
-                    Text("Нет аккаунта?")
-                        .foregroundStyle(t.muted)
-                    Text("Регистрация на badrimgu.com")
-                        .foregroundStyle(t.accentText)
-                        .fontWeight(.semibold)
-                }
-                .font(AppFont.ui(13))
-            }
-            .buttonStyle(.plain)
-            .frame(maxWidth: .infinity)
-            .padding(.top, 16)
         }
         .padding(.horizontal, 24)
         .padding(.top, 4)

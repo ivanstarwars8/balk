@@ -1,6 +1,106 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "Импорт конфигурации" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import configuration"
+          }
+        }
+      }
+    },
+    "VPN работает в приложении Happ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The VPN runs in the Happ app"
+          }
+        }
+      }
+    },
+    "Конфигурация недоступна" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuration unavailable"
+          }
+        }
+      }
+    },
+    "Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка»." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your configuration will appear here automatically. If it doesn't, message us in the Support tab."
+          }
+        }
+      }
+    },
+    "Личный аккаунт" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal account"
+          }
+        }
+      }
+    },
+    "Здесь показаны устройства, где выполнен вход. Отзовите ненужные, чтобы завершить их сессии." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These are the devices you're signed in on. Revoke the ones you don't need to end their sessions."
+          }
+        }
+      }
+    },
+    "Вход в аккаунт" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
+          }
+        }
+      }
+    },
+    "Войдите по почте — доступ к вашей конфигурации, устройствам и поддержке." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with your email to access your configuration, devices and support."
+          }
+        }
+      }
+    },
+    "Аккаунт не найден. Проверьте адрес почты." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account not found. Check your email address."
+          }
+        }
+      }
+    },
+    "Нет конфигурации" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No configuration"
+          }
+        }
+      }
+    },
     "" : {
 
     },

@@ -50,10 +50,9 @@ struct DevicesView: View {
     }
 
     private var intro: some View {
-        let limitStr = "\(session.subscription?.devices_limit ?? 2)"
-        return Text("Лимит тарифа — \(limitStr) устройств. Отзовите старое, чтобы освободить место.")
-            .foregroundStyle(t.muted)
+        Text("Здесь показаны устройства, где выполнен вход. Отзовите ненужные, чтобы завершить их сессии.")
             .font(AppFont.ui(14))
+            .foregroundStyle(t.muted)
             .lineSpacing(3)
     }
 

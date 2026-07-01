@@ -21,7 +21,7 @@ struct ProfileView: View {
 
                         GroupCard(label: "Аккаунт") {
                             RowItem(icon: "devices", title: "Устройства",
-                                    value: devicesValue, accent: true, chev: true,
+                                    accent: true, chev: true,
                                     onTap: { showDevices = true })
                             RowItem(icon: "key", title: "Сменить пароль", chev: true,
                                     onTap: openHomeLK)
@@ -55,7 +55,7 @@ struct ProfileView: View {
                         .padding(.horizontal, 16)
                         .padding(.bottom, 16)
 
-                        Text("BADRIMGU · iOS 1.0.0 · ЛК")
+                        Text("BADRIMGU · iOS 1.0.0")
                             .font(AppFont.mono(11))
                             .foregroundStyle(t.faint)
                             .frame(maxWidth: .infinity)
@@ -67,11 +67,6 @@ struct ProfileView: View {
                 DevicesView()
             }
         }
-    }
-
-    private var devicesValue: String {
-        guard let s = session.subscription else { return "—" }
-        return "\(s.devices_used ?? 0) / \(s.devices_limit ?? 0)"
     }
 
     private var accountCard: some View {
@@ -86,7 +81,7 @@ struct ProfileView: View {
                 Text(session.user?.email ?? "—")
                     .font(AppFont.ui(17, .semibold))
                     .foregroundStyle(t.text)
-                Text(planLine)
+                Text("Личный аккаунт")
                     .font(AppFont.ui(13))
                     .foregroundStyle(t.muted)
             }
@@ -96,17 +91,6 @@ struct ProfileView: View {
         .background(t.surface)
         .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(t.line, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 20))
-    }
-
-    private var planLine: String {
-        guard let s = session.subscription else { return "—" }
-        let plan = s.plan.map { "Premium · \($0)" } ?? "Premium"
-        if let iso = s.expires_at,
-           let date = ISO8601DateFormatter().date(from: iso) {
-            let f = DateFormatter(); f.dateFormat = "dd.MM.yyyy"
-            return "\(plan) · \(String(localized: "до")) \(f.string(from: date))"
-        }
-        return plan
     }
 
     private func openHomeLK() {

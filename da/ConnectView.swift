@@ -87,10 +87,10 @@ struct ConnectView: View {
                     QXIcon(name: "shieldCheck", size: 18, color: t.accent, weight: .medium)
                 }
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Это личный кабинет — временно")
+                    Text("Импорт конфигурации")
                         .font(AppFont.ui(14, .semibold))
                         .foregroundStyle(t.text)
-                    Text("Сам VPN работает в Happ")
+                    Text("VPN работает в приложении Happ")
                         .font(AppFont.ui(12.5))
                         .foregroundStyle(t.muted)
                 }
@@ -116,22 +116,15 @@ struct ConnectView: View {
                         .frame(width: 36, height: 36)
                     QXIcon(name: "clock", size: 18, color: t.warn, weight: .medium)
                 }
-                Text("Подписка не активна")
+                Text("Конфигурация недоступна")
                     .font(AppFont.ui(14, .semibold))
                     .foregroundStyle(t.text)
                 Spacer()
             }
-            Text("Ссылка для импорта в Happ появится здесь, когда подписка станет активной. Управление аккаунтом доступно в личном кабинете на сайте.")
+            Text("Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка».")
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
-            PrimaryButton(title: "Открыть ЛК на сайте", icon: "link") {
-                Task {
-                    if let url = await session.lkSession(go: "home") {
-                        openURL(url)
-                    }
-                }
-            }
         }
         .padding(16)
         .background(t.surface)
