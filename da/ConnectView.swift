@@ -31,10 +31,8 @@ struct ConnectView: View {
                 GroupCard(label: "Поддерживаемые клиенты") {
                     RowItem(icon: "bolt", title: "Happ",
                             subtitle: "Рекомендуем для iOS",
-                            accent: true, chev: true,
+                            accent: true, last: true, chev: true,
                             onTap: openHappStore)
-                    RowItem(icon: "layers", title: "v2RayTun")
-                    RowItem(icon: "shield", title: "Streisand", last: true)
                 }
                 .padding(.top, 14)
             }

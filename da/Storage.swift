@@ -58,9 +58,16 @@ enum AppStoreRegion {
     /// Read it at the moment of use — the storefront can change if the user
     /// switches their Apple ID country.
     static func isRussia() async -> Bool {
+        // 1) App Store storefront is the authoritative signal — a ru:// listing
+        //    link only opens if the account's storefront is Russia.
         if let cc = await Storefront.current?.countryCode {
             return cc.uppercased() == "RUS"   // ISO 3166-1 alpha-3
         }
-        return Locale.current.region?.identifier.uppercased() == "RU"
+        // 2) Storefront can be nil (e.g. no App Store account on Simulator).
+        //    Fall back to the device region, then the preferred language.
+        if let reg = Locale.current.region?.identifier.uppercased() {
+            return reg == "RU"
+        }
+        return (Locale.preferredLanguages.first ?? "").lowercased().hasPrefix("ru")
     }
 }
