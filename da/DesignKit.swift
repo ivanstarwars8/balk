@@ -81,6 +81,10 @@ struct QXIcon: View {
         case "clock": return "clock"
         case "moon": return "moon.fill"
         case "sun": return "sun.max.fill"
+        case "gauge": return "speedometer"
+        case "wifi": return "wifi"
+        case "pulse": return "waveform.path.ecg"
+        case "xmark": return "xmark"
         default: return "questionmark"
         }
     }

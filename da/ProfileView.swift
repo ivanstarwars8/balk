@@ -5,6 +5,7 @@ struct ProfileView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var showDevices: Bool = false
+    @State private var showDiagnostics: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -25,8 +26,11 @@ struct ProfileView: View {
                             RowItem(icon: "devices", title: "Устройства",
                                     accent: true, chev: true,
                                     onTap: { showDevices = true })
-                            RowItem(icon: "key", title: "Сменить пароль", last: true, chev: true,
+                            RowItem(icon: "key", title: "Сменить пароль", chev: true,
                                     onTap: openHomeLK)
+                            RowItem(icon: "pulse", title: "Диагностика соединения",
+                                    accent: true, last: true, chev: true,
+                                    onTap: { showDiagnostics = true })
                         }
 
                         GroupCard(label: "Правовое") {
@@ -58,6 +62,9 @@ struct ProfileView: View {
             }
             .navigationDestination(isPresented: $showDevices) {
                 DevicesView()
+            }
+            .navigationDestination(isPresented: $showDiagnostics) {
+                DiagnosticsView()
             }
         }
     }

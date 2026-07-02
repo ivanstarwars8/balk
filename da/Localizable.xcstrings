@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "—" : {
+
+    },
     "%lld" : {
 
     },
@@ -339,6 +342,28 @@
         }
       }
     },
+    "Диагностика" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostics"
+          }
+        }
+      }
+    },
+    "Диагностика соединения" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection diagnostics"
+          }
+        }
+      }
+    },
     "дней" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -372,6 +397,17 @@
         }
       }
     },
+    "Доступность и задержка" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reachability & latency"
+          }
+        }
+      }
+    },
     "Забыли?" : {
       "localizations" : {
         "en" : {
@@ -388,6 +424,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading link…"
+          }
+        }
+      }
+    },
+    "Задержка измеряется временем ответа сервера (не ICMP-ping). Тест скорости качает пробный файл ~8 МБ." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latency is measured by server response time (not ICMP ping). The speed test downloads a ~8 MB test file."
           }
         }
       }
@@ -419,6 +465,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "These are the devices you're signed in on. Revoke the ones you don't need to end their sessions."
+          }
+        }
+      }
+    },
+    "измеряем…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "measuring…"
           }
         }
       }
@@ -549,6 +605,16 @@
         }
       }
     },
+    "Мбит/с" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mbps"
+          }
+        }
+      }
+    },
     "Мес" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -556,6 +622,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Month"
+          }
+        }
+      }
+    },
+    "мс" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ms"
           }
         }
       }
@@ -588,6 +664,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscription not arriving"
+          }
+        }
+      }
+    },
+    "не удалось" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "failed"
           }
         }
       }
@@ -640,6 +726,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No configuration"
+          }
+        }
+      }
+    },
+    "нет ответа" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "no response"
           }
         }
       }
@@ -864,6 +960,27 @@
         }
       }
     },
+    "Проверить соединение" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check connection"
+          }
+        }
+      }
+    },
+    "Проверьте, что интернет и серверы отвечают. Если что-то красное — пришлите скрин в поддержку." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check that the internet and servers respond. If anything is red, send a screenshot to support."
+          }
+        }
+      }
+    },
     "Проверяем…" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1009,6 +1126,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copied"
+          }
+        }
+      }
+    },
+    "Скорость загрузки" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download speed"
           }
         }
       }
