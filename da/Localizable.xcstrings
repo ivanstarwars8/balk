@@ -1281,6 +1281,17 @@
         }
       }
     },
+    "Устранение неполадок" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troubleshooting"
+          }
+        }
+      }
+    },
     "Устройства" : {
       "extractionState" : "stale",
       "localizations" : {

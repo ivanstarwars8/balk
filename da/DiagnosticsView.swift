@@ -7,7 +7,7 @@ struct DiagnosticsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            IOSNav(title: "Диагностика", back: "Профиль", onBack: { dismiss() })
+            IOSNav(title: "Устранение неполадок", back: "Профиль", onBack: { dismiss() })
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {

@@ -28,7 +28,7 @@ struct ProfileView: View {
                                     onTap: { showDevices = true })
                             RowItem(icon: "key", title: "Сменить пароль", chev: true,
                                     onTap: openHomeLK)
-                            RowItem(icon: "pulse", title: "Диагностика соединения",
+                            RowItem(icon: "pulse", title: "Устранение неполадок",
                                     accent: true, last: true, chev: true,
                                     onTap: { showDiagnostics = true })
                         }
