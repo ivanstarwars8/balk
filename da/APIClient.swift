@@ -132,9 +132,17 @@ actor APIClient {
 
     private func perform(method: String, path: String,
                          bodyData: Data?, auth: Bool) async throws -> (Data, HTTPURLResponse) {
-        let url = baseURL.appendingPathComponent(
-            path.hasPrefix("/") ? String(path.dropFirst()) : path
+        // appendingPathComponent would percent-encode a "?" — split the query off.
+        let pieces = path.split(separator: "?", maxSplits: 1)
+        let purePath = String(pieces[0])
+        var url = baseURL.appendingPathComponent(
+            purePath.hasPrefix("/") ? String(purePath.dropFirst()) : purePath
         )
+        if pieces.count == 2,
+           var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            comps.percentEncodedQuery = String(pieces[1])
+            url = comps.url ?? url
+        }
         var req = URLRequest(url: url)
         req.httpMethod = method
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -175,8 +183,13 @@ actor APIClient {
         let (data, http) = try await perform(method: "POST", path: "/auth/refresh",
                                              bodyData: body, auth: false)
         guard http.statusCode == 200 else {
-            clearTokens()
-            throw APIError.unauthenticated
+            // Burn the session only when the server explicitly rejects the
+            // token — a transient 5xx must not log the user out.
+            if http.statusCode == 401 || http.statusCode == 403 {
+                clearTokens()
+                throw APIError.unauthenticated
+            }
+            throw APIError.http(http.statusCode, "")
         }
         let r = try decoder.decode(RefreshResponse.self, from: data)
         guard let tokens = r.resolvedTokens else {

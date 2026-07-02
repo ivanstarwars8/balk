@@ -4,7 +4,6 @@ struct ProfileView: View {
     @Environment(\.theme) var t
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
-    @State private var notificationsOn: Bool = true
     @State private var showDevices: Bool = false
 
     var body: some View {
@@ -19,21 +18,15 @@ struct ProfileView: View {
                             .padding(.top, 8)
                             .padding(.bottom, 18)
 
+                        // "Язык"/"Тема"/"Уведомления" rows were decorative
+                        // dead-ends (no real setting behind them) — dropped.
+                        // Language follows the device locale since 1.0 (3).
                         GroupCard(label: "Аккаунт") {
                             RowItem(icon: "devices", title: "Устройства",
                                     accent: true, chev: true,
                                     onTap: { showDevices = true })
-                            RowItem(icon: "key", title: "Сменить пароль", chev: true,
+                            RowItem(icon: "key", title: "Сменить пароль", last: true, chev: true,
                                     onTap: openHomeLK)
-                            RowItem(icon: "bell", title: "Уведомления", last: true,
-                                    toggleOn: $notificationsOn)
-                        }
-
-                        GroupCard(label: "Приложение") {
-                            RowItem(icon: "translate", title: "Язык",
-                                    value: "Русский", chev: true)
-                            RowItem(icon: "sparkle", title: "Тема",
-                                    value: "Системная", last: true, chev: true)
                         }
 
                         GroupCard(label: "Правовое") {
@@ -55,7 +48,7 @@ struct ProfileView: View {
                         .padding(.horizontal, 16)
                         .padding(.bottom, 16)
 
-                        Text("BADRIMGU · iOS 1.0.0")
+                        Text("BADRIMGU · iOS \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))")
                             .font(AppFont.mono(11))
                             .foregroundStyle(t.faint)
                             .frame(maxWidth: .infinity)

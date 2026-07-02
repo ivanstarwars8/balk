@@ -13,6 +13,9 @@ struct ConnectView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {
+                    ForEach(session.notices) { n in
+                        noticeCard(n)
+                    }
                     happCard
                     if session.subscriptionURL == nil {
                         expiredCard
@@ -30,17 +33,83 @@ struct ConnectView: View {
                             subtitle: "Рекомендуем для iOS",
                             accent: true, chev: true,
                             onTap: openHappStore)
-                    RowItem(icon: "layers", title: "v2RayTun", chev: true)
-                    RowItem(icon: "shield", title: "Streisand", last: true, chev: true)
+                    RowItem(icon: "layers", title: "v2RayTun")
+                    RowItem(icon: "shield", title: "Streisand", last: true)
                 }
                 .padding(.top, 14)
             }
-            .refreshable { await session.loadSubscriptionURL() }
+            .refreshable {
+                await session.loadSubscriptionURL()
+                await session.loadNotices()
+            }
         }
         .task {
             if session.subscriptionURL == nil {
                 await session.loadSubscriptionURL()
             }
+            await session.loadNotices()
+        }
+    }
+
+    /// Backend-managed notice: text arrives already localized; the optional
+    /// button either opens a plain URL or — for "lk:<go>" — mints a magic-login
+    /// and opens the web cabinet signed in.
+    private func noticeCard(_ n: Notice) -> some View {
+        let (icon, tint): (String, Color) = {
+            switch n.kind {
+            case "warn":    return ("clock", t.warn)
+            case "success": return ("check", t.success)
+            default:        return ("bell", t.accent)
+            }
+        }()
+        return VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(tint.opacity(0.16))
+                        .frame(width: 36, height: 36)
+                    QXIcon(name: icon, size: 18, color: tint, weight: .medium)
+                }
+                Text(n.title)
+                    .font(AppFont.ui(14, .semibold))
+                    .foregroundStyle(t.text)
+                Spacer()
+            }
+            if let body = n.body, !body.isEmpty {
+                Text(body)
+                    .font(AppFont.ui(13.5))
+                    .foregroundStyle(t.muted)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let urlStr = n.url, !urlStr.isEmpty {
+                Button(action: { openNoticeURL(urlStr) }) {
+                    HStack(spacing: 6) {
+                        Text(n.url_title?.isEmpty == false ? n.url_title! : String(localized: "Открыть"))
+                            .font(AppFont.ui(13.5, .semibold))
+                            .foregroundStyle(t.accent)
+                        QXIcon(name: "arrowR", size: 14, color: t.accent, weight: .semibold)
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(16)
+        .background(t.surface)
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func openNoticeURL(_ raw: String) {
+        if raw.hasPrefix("lk:") {
+            let go = String(raw.dropFirst(3))
+            Task {
+                if let url = await session.lkSession(go: go.isEmpty ? "home" : go) {
+                    openURL(url)
+                }
+            }
+        } else if let url = URL(string: raw) {
+            openURL(url)
         }
     }
 

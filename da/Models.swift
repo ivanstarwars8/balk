@@ -97,6 +97,23 @@ struct ImportLinkResponse: Codable {
     let app: String?
 }
 
+/// Backend-managed notice board (/v1/notices). Text arrives already localized
+/// (the client passes ?lang=). `url` is optional; the special "lk:<go>" scheme
+/// means "mint a magic-login via /me/lk_session and open the web cabinet".
+struct Notice: Codable, Identifiable, Equatable {
+    let id: Int
+    let kind: String?
+    let title: String
+    let body: String?
+    let url: String?
+    let url_title: String?
+}
+
+struct NoticesResponse: Codable {
+    let ok: Bool?
+    let notices: [Notice]
+}
+
 struct APIErrorBody: Codable {
     let error: String?
     let message: String?

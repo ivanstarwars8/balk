@@ -8,6 +8,7 @@ final class AuthSession: ObservableObject {
     @Published private(set) var subscription: Subscription?
     @Published private(set) var subscriptionURL: SubscriptionURL?
     @Published private(set) var devices: [Device] = []
+    @Published private(set) var notices: [Notice] = []
     @Published private(set) var bootstrapping: Bool = true
 
     @Published var loginInFlight: Bool = false
@@ -17,6 +18,10 @@ final class AuthSession: ObservableObject {
     var isAuthenticated: Bool { user != nil }
 
     init() {
+        if let data = UserDefaults.standard.data(forKey: "notices_cache"),
+           let cached = try? JSONDecoder().decode([Notice].self, from: data) {
+            self.notices = cached
+        }
         Task { await bootstrap() }
     }
 
@@ -24,11 +29,26 @@ final class AuthSession: ObservableObject {
         bootstrapping = true
         defer { bootstrapping = false }
         guard await APIClient.shared.hasRefreshToken() else { return }
+        // Show the cached identity instantly and stay signed in when the app
+        // launches offline — the network refresh continues behind the UI
+        // (bootstrapping=false drops the splash right away).
+        if let cached = loadCachedMe() {
+            applyMe(cached)
+            bootstrapping = false
+        }
         do {
             let me: MeResponse = try await APIClient.shared.get("/me")
             applyMe(me)
-        } catch {
+            saveCachedMe(me)
+        } catch APIError.unauthenticated {
+            // The refresh token is really dead — only then drop the session.
             await APIClient.shared.clearTokens()
+            removeCachedMe()
+            self.user = nil
+            self.subscription = nil
+        } catch {
+            // Network/server hiccup: keep the cached session. First-ever launch
+            // with no cache falls through to the login screen as before.
         }
     }
 
@@ -62,7 +82,7 @@ final class AuthSession: ObservableObject {
                 auth: false
             )
             guard let tokens = r.resolvedTokens else {
-                lastError = "Сервер не вернул токены"
+                lastError = String(localized: "Сервер не вернул токены")
                 return false
             }
             await APIClient.shared.setTokens(tokens)
@@ -70,6 +90,12 @@ final class AuthSession: ObservableObject {
                 self.user = u
                 self.subscription = r.subscription
                 self.subscriptionURL = r.subscription_url
+                saveCachedMe(MeResponse(
+                    id: u.id ?? "", email: u.email ?? "",
+                    created_at: u.created_at,
+                    must_change_password: u.must_change_password,
+                    subscription: r.subscription
+                ))
             } else {
                 await refreshMe()
             }
@@ -84,8 +110,24 @@ final class AuthSession: ObservableObject {
         do {
             let me: MeResponse = try await APIClient.shared.get("/me")
             applyMe(me)
+            saveCachedMe(me)
         } catch {
             lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
+        }
+    }
+
+    /// Backend-managed notice board. Public endpoint; text comes back already
+    /// localized. Cached so the board survives offline launches.
+    func loadNotices() async {
+        do {
+            let lang = Locale.preferredLanguages.first?.lowercased().hasPrefix("ru") == true ? "ru" : "en"
+            let r: NoticesResponse = try await APIClient.shared.get("/notices?lang=\(lang)", auth: false)
+            self.notices = r.notices
+            if let data = try? JSONEncoder().encode(r.notices) {
+                UserDefaults.standard.set(data, forKey: "notices_cache")
+            }
+        } catch {
+            // Offline / server error: keep whatever the cache gave us.
         }
     }
 
@@ -149,6 +191,7 @@ final class AuthSession: ObservableObject {
         await APIClient.shared.clearTokens()
         KeychainStore.remove("chat_thread_id")
         KeychainStore.remove("chat_guest_token")
+        removeCachedMe()
         self.user = nil
         self.subscription = nil
         self.subscriptionURL = nil
@@ -162,5 +205,24 @@ final class AuthSession: ObservableObject {
             must_change_password: me.must_change_password
         )
         self.subscription = me.subscription
+    }
+
+    // MARK: - /me cache (offline launches keep the session alive)
+
+    private func saveCachedMe(_ me: MeResponse) {
+        if let data = try? JSONEncoder().encode(me),
+           let json = String(data: data, encoding: .utf8) {
+            KeychainStore.set(json, key: "me_cache")
+        }
+    }
+
+    private func loadCachedMe() -> MeResponse? {
+        guard let json = KeychainStore.get("me_cache"),
+              let data = json.data(using: .utf8) else { return nil }
+        return try? JSONDecoder().decode(MeResponse.self, from: data)
+    }
+
+    private func removeCachedMe() {
+        KeychainStore.remove("me_cache")
     }
 }
