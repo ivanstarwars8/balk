@@ -4,8 +4,8 @@ struct ConnectView: View {
     @Environment(\.theme) var t
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
-    @State private var copiedFlash: Bool = false
     @State private var importInFlight: Bool = false
+    @State private var showDiagnostics: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -22,24 +22,21 @@ struct ConnectView: View {
                     } else {
                         actions
                         stepsCard
-                        linkRow
+                        extraDeviceCard
                     }
+                    troubleshootCard
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 4)
-
-                GroupCard(label: "Поддерживаемые клиенты") {
-                    RowItem(icon: "bolt", title: "Happ",
-                            subtitle: "Рекомендуем для iOS",
-                            accent: true, last: true, chev: true,
-                            onTap: openHappStore)
-                }
-                .padding(.top, 14)
+                .padding(.bottom, 16)
             }
             .refreshable {
                 await session.loadSubscriptionURL()
                 await session.loadNotices()
             }
+        }
+        .sheet(isPresented: $showDiagnostics) {
+            DiagnosticsView()
         }
         .task {
             if session.subscriptionURL == nil {
@@ -116,8 +113,8 @@ struct ConnectView: View {
             Text("Как подключиться")
                 .font(AppFont.ui(14, .semibold))
                 .foregroundStyle(t.text)
-            stepRow(1, "Установите Happ из App Store — кнопка «Скачать Happ» выше (для России и остального мира ссылка подберётся сама).")
-            stepRow(2, "Нажмите «Импортировать в Happ» — конфигурация добавится в приложение автоматически.")
+            stepRow(1, "Скачайте Happ из App Store — кнопка «Скачать Happ» ниже (ссылка для России и остального мира подберётся сама).")
+            stepRow(2, "Нажмите «Импортировать в Happ» — подписка добавится в приложение автоматически и в зашифрованном виде.")
             stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -163,7 +160,7 @@ struct ConnectView: View {
                 }
                 Spacer()
             }
-            Text("Подключение в один тап: «Импортировать в Happ» — конфиг сам пропишется в приложении. Если Happ ещё не стоит — установите из App Store.")
+            Text("Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически и в зашифрованном виде.")
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
@@ -201,56 +198,73 @@ struct ConnectView: View {
 
     private var actions: some View {
         VStack(spacing: 11) {
+            PrimaryButton(title: "Скачать Happ", icon: "download",
+                          kind: .secondary, action: openHappStore)
+
             PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
-                          icon: "download",
+                          icon: "arrowR",
                           action: openInHapp)
                 .disabled(session.subscriptionURL == nil || importInFlight)
                 .opacity((session.subscriptionURL == nil || importInFlight) ? 0.55 : 1)
-
-            PrimaryButton(title: "Скачать Happ", icon: "arrowR",
-                          kind: .secondary, action: openHappStore)
         }
     }
 
-    private var linkRow: some View {
-        HStack(spacing: 12) {
-            QXIcon(name: "link", size: 18, color: t.muted, weight: .medium)
-            Text(displayURL)
-                .font(AppFont.mono(12))
-                .foregroundStyle(t.muted)
-                .lineLimit(1)
-                .truncationMode(.middle)
-            Spacer(minLength: 0)
-            Button(action: copyLink) {
-                HStack(spacing: 5) {
-                    QXIcon(name: copiedFlash ? "check" : "grid",
-                           size: 16, color: t.accentText, weight: .semibold)
-                    Text(copiedFlash ? "Скопировано" : "Копировать")
-                        .font(AppFont.ui(13, .semibold))
-                        .foregroundStyle(t.accentText)
+    /// Adding another device: the encrypted import is the only supported path —
+    /// there is deliberately NO copyable subscription link (a raw, unencrypted
+    /// link must never be shared).
+    private var extraDeviceCard: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10).fill(t.accentSoft).frame(width: 36, height: 36)
+                    QXIcon(name: "devices", size: 18, color: t.accent, weight: .medium)
                 }
+                Text("Другое устройство")
+                    .font(AppFont.ui(14, .semibold))
+                    .foregroundStyle(t.text)
+                Spacer()
             }
-            .buttonStyle(.plain)
-            .disabled(session.subscriptionURL == nil)
+            Text("Чтобы подключить ещё одно iOS-устройство — установите на нём приложение BADRIMGU и импортируйте подписку кнопкой. Другого способа нет: подписка передаётся только в зашифрованном виде.")
+                .font(AppFont.ui(13.5))
+                .foregroundStyle(t.muted)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 13)
+        .padding(16)
         .background(t.surface)
-        .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(t.line, lineWidth: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private var troubleshootCard: some View {
+        Button {
+            showDiagnostics = true
+        } label: {
+            HStack(spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10).fill(t.surface2).frame(width: 36, height: 36)
+                    QXIcon(name: "pulse", size: 18, color: t.muted, weight: .medium)
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Устранение неполадок")
+                        .font(AppFont.ui(15.5, .medium))
+                        .foregroundStyle(t.text)
+                    Text("Проверить скорость и доступность")
+                        .font(AppFont.ui(12.5))
+                        .foregroundStyle(t.muted)
+                }
+                Spacer(minLength: 0)
+                QXIcon(name: "chevR", size: 17, color: t.faint, weight: .semibold)
+            }
+            .padding(16)
+            .background(t.surface)
+            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Actions
-
-    private func copyLink() {
-        guard let s = session.subscriptionURL?.url else { return }
-        UIPasteboard.general.string = s
-        copiedFlash = true
-        Task {
-            try? await Task.sleep(nanoseconds: 1_500_000_000)
-            copiedFlash = false
-        }
-    }
 
     private func openInHapp() {
         guard !importInFlight else { return }
@@ -287,8 +301,4 @@ struct ConnectView: View {
         }
     }
 
-    private var displayURL: String {
-        guard let raw = session.subscriptionURL?.url else { return String(localized: "Загружаем ссылку…") }
-        return raw.replacingOccurrences(of: "https://", with: "")
-    }
 }

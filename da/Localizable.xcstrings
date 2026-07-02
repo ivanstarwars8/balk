@@ -408,6 +408,16 @@
         }
       }
     },
+    "Другое устройство" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Another device"
+          }
+        }
+      }
+    },
     "Забыли?" : {
       "localizations" : {
         "en" : {
@@ -419,6 +429,7 @@
       }
     },
     "Загружаем ссылку…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -564,6 +575,7 @@
       }
     },
     "Копировать" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -643,6 +655,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap “Import into Happ” — the configuration is added to the app automatically."
+          }
+        }
+      }
+    },
+    "Нажмите «Импортировать в Happ» — подписка добавится в приложение автоматически и в зашифрованном виде." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Import into Happ” — your subscription is added to the app automatically and encrypted."
           }
         }
       }
@@ -876,6 +899,7 @@
       }
     },
     "Подключение в один тап: «Импортировать в Happ» — конфиг сам пропишется в приложении. Если Happ ещё не стоит — установите из App Store." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -956,6 +980,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App"
+          }
+        }
+      }
+    },
+    "Проверить скорость и доступность" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check speed and reachability"
           }
         }
       }
@@ -1109,6 +1143,17 @@
         }
       }
     },
+    "Скачайте Happ из App Store — кнопка «Скачать Happ» ниже (ссылка для России и остального мира подберётся сама)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ from the App Store — the “Download Happ” button is below (the link for Russia or the rest of the world is picked automatically)."
+          }
+        }
+      }
+    },
     "Скачать Happ" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1121,6 +1166,7 @@
       }
     },
     "Скопировано" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1168,6 +1214,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Change device"
+          }
+        }
+      }
+    },
+    "Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически и в зашифрованном виде." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First install Happ, then tap “Import into Happ” — your subscription is added automatically and encrypted."
           }
         }
       }
@@ -1282,7 +1338,6 @@
       }
     },
     "Устранение неполадок" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1329,6 +1384,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The chat is empty. Ask your question — an operator will reply within a few minutes."
+          }
+        }
+      }
+    },
+    "Чтобы подключить ещё одно iOS-устройство — установите на нём приложение BADRIMGU и импортируйте подписку кнопкой. Другого способа нет: подписка передаётся только в зашифрованном виде." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To connect another iOS device, install the BADRIMGU app on it and import the subscription with the button. There is no other way — the subscription is transferred only in encrypted form."
           }
         }
       }
