@@ -1,116 +1,6 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
-    "Открыть" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open"
-          }
-        }
-      }
-    },
-    "Импорт конфигурации" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import configuration"
-          }
-        }
-      }
-    },
-    "VPN работает в приложении Happ" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The VPN runs in the Happ app"
-          }
-        }
-      }
-    },
-    "Конфигурация недоступна" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configuration unavailable"
-          }
-        }
-      }
-    },
-    "Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка»." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your configuration will appear here automatically. If it doesn't, message us in the Support tab."
-          }
-        }
-      }
-    },
-    "Личный аккаунт" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personal account"
-          }
-        }
-      }
-    },
-    "Здесь показаны устройства, где выполнен вход. Отзовите ненужные, чтобы завершить их сессии." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "These are the devices you're signed in on. Revoke the ones you don't need to end their sessions."
-          }
-        }
-      }
-    },
-    "Вход в аккаунт" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in"
-          }
-        }
-      }
-    },
-    "Войдите по почте — доступ к вашей конфигурации, устройствам и поддержке." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in with your email to access your configuration, devices and support."
-          }
-        }
-      }
-    },
-    "Аккаунт не найден. Проверьте адрес почты." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Account not found. Check your email address."
-          }
-        }
-      }
-    },
-    "Нет конфигурации" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No configuration"
-          }
-        }
-      }
-    },
     "" : {
 
     },
@@ -118,6 +8,7 @@
 
     },
     "3 мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -128,6 +19,7 @@
       }
     },
     "6 мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -147,7 +39,18 @@
         }
       }
     },
+    "BADRIMGU · iOS %@ (%@)" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BADRIMGU · iOS %1$@ (%2$@)"
+          }
+        }
+      }
+    },
     "BADRIMGU · iOS 1.0.0 · ЛК" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -158,6 +61,7 @@
       }
     },
     "Premium · 3 мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -168,6 +72,7 @@
       }
     },
     "Premium · 6 мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -178,6 +83,7 @@
       }
     },
     "Premium · год" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -188,11 +94,22 @@
       }
     },
     "Premium · мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Premium · month"
+          }
+        }
+      }
+    },
+    "VPN работает в приложении Happ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The VPN runs in the Happ app"
           }
         }
       }
@@ -229,6 +146,7 @@
       }
     },
     "Аккаунт не найден." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -238,7 +156,18 @@
         }
       }
     },
+    "Аккаунт не найден. Проверьте адрес почты." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account not found. Check your email address."
+          }
+        }
+      }
+    },
     "Активна" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -291,7 +220,18 @@
         }
       }
     },
+    "Войдите по почте — доступ к вашей конфигурации, устройствам и поддержке." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with your email to access your configuration, devices and support."
+          }
+        }
+      }
+    },
     "Войдите по почте — откроется подписка, устройства и поддержка." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -303,6 +243,16 @@
     },
     "Войти" : {
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
+          }
+        }
+      }
+    },
+    "Вход в аккаунт" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -346,6 +296,7 @@
       }
     },
     "ГБ" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -356,6 +307,7 @@
       }
     },
     "Год" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -377,6 +329,7 @@
       }
     },
     "день" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -387,6 +340,7 @@
       }
     },
     "дней" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -397,6 +351,7 @@
       }
     },
     "дня" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -407,6 +362,7 @@
       }
     },
     "до" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -437,6 +393,7 @@
       }
     },
     "Зарегистрироваться на badrimgu.com" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -456,6 +413,26 @@
         }
       }
     },
+    "Здесь показаны устройства, где выполнен вход. Отзовите ненужные, чтобы завершить их сессии." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These are the devices you're signed in on. Revoke the ones you don't need to end their sessions."
+          }
+        }
+      }
+    },
+    "Импорт конфигурации" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import configuration"
+          }
+        }
+      }
+    },
     "Импортировать в Happ" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -468,6 +445,7 @@
       }
     },
     "истекла" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -478,6 +456,7 @@
       }
     },
     "Истекла" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -493,6 +472,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "How to connect"
+          }
+        }
+      }
+    },
+    "Конфигурация недоступна" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuration unavailable"
+          }
+        }
+      }
+    },
+    "Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка»." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your configuration will appear here automatically. If it doesn't, message us in the Support tab."
           }
         }
       }
@@ -519,6 +518,7 @@
       }
     },
     "Лимит тарифа — %@ устройств. Отзовите старое, чтобы освободить место." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -528,7 +528,18 @@
         }
       }
     },
+    "Личный аккаунт" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal account"
+          }
+        }
+      }
+    },
     "Личный кабинет" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -539,6 +550,7 @@
       }
     },
     "Мес" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -611,11 +623,23 @@
       }
     },
     "Нет аккаунта?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "No account?"
+          }
+        }
+      }
+    },
+    "Нет конфигурации" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No configuration"
           }
         }
       }
@@ -647,6 +671,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remaining"
+          }
+        }
+      }
+    },
+    "Открыть" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
           }
         }
       }
@@ -756,6 +790,7 @@
       }
     },
     "Подписка" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -776,6 +811,7 @@
       }
     },
     "Подписка не активна" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -861,6 +897,7 @@
       }
     },
     "Регистрация на badrimgu.com" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -903,6 +940,7 @@
       }
     },
     "Сам VPN работает в Happ" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -924,7 +962,6 @@
       }
     },
     "Сервер не вернул токены" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1019,6 +1056,7 @@
       }
     },
     "Ссылка для импорта в Happ появится здесь, когда подписка станет активной. Управление аккаунтом доступно в личном кабинете на сайте." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1051,6 +1089,7 @@
       }
     },
     "Трафик" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1061,6 +1100,7 @@
       }
     },
     "Триал" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1156,6 +1196,7 @@
       }
     },
     "Это личный кабинет — временно" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
