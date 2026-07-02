@@ -41,10 +41,10 @@
     },
     "BADRIMGU · iOS %@ (%@)" : {
       "localizations" : {
-        "ru" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "BADRIMGU · iOS %1$@ (%2$@)"
+            "state" : "translated",
+            "value" : "BADRIMGU · iOS %@ (%@)"
           }
         }
       }
