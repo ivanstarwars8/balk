@@ -5,7 +5,6 @@ struct ConnectView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var importInFlight: Bool = false
-    @State private var showDiagnostics: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -24,7 +23,6 @@ struct ConnectView: View {
                         stepsCard
                         extraDeviceCard
                     }
-                    troubleshootCard
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 4)
@@ -34,9 +32,6 @@ struct ConnectView: View {
                 await session.loadSubscriptionURL()
                 await session.loadNotices()
             }
-        }
-        .sheet(isPresented: $showDiagnostics) {
-            DiagnosticsView()
         }
         .task {
             if session.subscriptionURL == nil {
@@ -234,34 +229,6 @@ struct ConnectView: View {
         .background(t.surface)
         .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 18))
-    }
-
-    private var troubleshootCard: some View {
-        Button {
-            showDiagnostics = true
-        } label: {
-            HStack(spacing: 14) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10).fill(t.surface2).frame(width: 36, height: 36)
-                    QXIcon(name: "pulse", size: 18, color: t.muted, weight: .medium)
-                }
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Устранение неполадок")
-                        .font(AppFont.ui(15.5, .medium))
-                        .foregroundStyle(t.text)
-                    Text("Проверить скорость и доступность")
-                        .font(AppFont.ui(12.5))
-                        .foregroundStyle(t.muted)
-                }
-                Spacer(minLength: 0)
-                QXIcon(name: "chevR", size: 17, color: t.faint, weight: .semibold)
-            }
-            .padding(16)
-            .background(t.surface)
-            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 18))
-        }
-        .buttonStyle(.plain)
     }
 
     // MARK: - Actions

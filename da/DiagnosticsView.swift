@@ -2,12 +2,11 @@ import SwiftUI
 
 struct DiagnosticsView: View {
     @Environment(\.theme) var t
-    @Environment(\.dismiss) var dismiss
     @StateObject private var diag = NetworkDiagnostics()
 
     var body: some View {
         VStack(spacing: 0) {
-            IOSNav(title: "Устранение неполадок", back: "Назад", onBack: { dismiss() })
+            IOSNav(title: "Устранение неполадок")
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {

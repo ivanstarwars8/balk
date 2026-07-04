@@ -753,6 +753,16 @@
         }
       }
     },
+    "Неполадки" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostics"
+          }
+        }
+      }
+    },
     "Нет аккаунта?" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1007,6 +1017,7 @@
       }
     },
     "Проверить скорость и доступность" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1370,6 +1381,7 @@
       }
     },
     "Устранение неполадок" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
