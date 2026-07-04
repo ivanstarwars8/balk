@@ -26,6 +26,8 @@ struct DiagnosticsView: View {
                         .foregroundStyle(t.faint)
                         .lineSpacing(3)
                         .frame(maxWidth: .infinity, alignment: .leading)
+
+                    vpnHelpCard
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 4)
@@ -35,6 +37,44 @@ struct DiagnosticsView: View {
         .navigationBarBackButtonHidden(true)
         .task {
             if case .idle = diag.speed { await diag.runAll() }
+        }
+    }
+
+    /// Static help for "VPN works poorly" — the most common fixes, in order.
+    private var vpnHelpCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10).fill(t.accentSoft).frame(width: 36, height: 36)
+                    QXIcon(name: "shield", size: 18, color: t.accent, weight: .medium)
+                }
+                Text("Если VPN плохо работает")
+                    .font(AppFont.ui(14, .semibold))
+                    .foregroundStyle(t.text)
+                Spacer()
+            }
+            helpRow("Проверьте, что установлена актуальная версия Happ (кнопка «Скачать Happ» на экране «Подключение»: «Открыть/Обновить» — ок, «Установить» — переустановите Happ).")
+            helpRow("В Happ выберите другой сервер и переподключитесь.")
+            helpRow("Выключите и снова включите VPN в Happ.")
+            helpRow("Если скорость выше близка к нулю или хосты «нет ответа» — проблема с сетью или сервером, попробуйте другую сеть (Wi-Fi/моб. интернет).")
+            helpRow("Если не помогло — напишите в «Поддержку» и приложите скрин этого экрана.")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(t.surface)
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
+    }
+
+    private func helpRow(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Circle().fill(t.accent).frame(width: 6, height: 6).padding(.top, 7)
+            Text(text)
+                .font(AppFont.ui(13.5))
+                .foregroundStyle(t.muted)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
         }
     }
 

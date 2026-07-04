@@ -213,6 +213,17 @@
         }
       }
     },
+    "В Happ выберите другой сервер и переподключитесь." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Happ, pick another server and reconnect."
+          }
+        }
+      }
+    },
     "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -305,6 +316,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign out"
+          }
+        }
+      }
+    },
+    "Выключите и снова включите VPN в Happ." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn the VPN off and on again in Happ."
           }
         }
       }
@@ -425,6 +447,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Another device"
+          }
+        }
+      }
+    },
+    "Если VPN плохо работает" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If the VPN works poorly"
+          }
+        }
+      }
+    },
+    "Если не помогло — напишите в «Поддержку» и приложите скрин этого экрана." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If that didn’t help, message Support and attach a screenshot of this screen."
+          }
+        }
+      }
+    },
+    "Если скорость выше близка к нулю или хосты «нет ответа» — проблема с сетью или сервером, попробуйте другую сеть (Wi-Fi/моб. интернет)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If the speed above is near zero or hosts show “no response”, it’s a network or server issue — try another network (Wi-Fi / mobile data)."
           }
         }
       }
@@ -561,6 +615,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "How to connect"
+          }
+        }
+      }
+    },
+    "Как проверить: нажмите «Проверить Happ» ниже." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to check: tap “Check Happ” below."
+          }
+        }
+      }
+    },
+    "Кнопка «Загрузить»/«Установить» — удалите старый Happ (если он установлен) и установите заново из App Store." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A “Get”/“Install” button — delete your old Happ (if installed) and reinstall it from the App Store."
+          }
+        }
+      }
+    },
+    "Кнопка «Открыть» или «Обновить» — всё в порядке, у вас новая версия." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An “Open” or “Update” button — you’re fine, you have the current version."
           }
         }
       }
@@ -983,6 +1069,17 @@
         }
       }
     },
+    "Понятно" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got it"
+          }
+        }
+      }
+    },
     "Почта" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1016,6 +1113,27 @@
         }
       }
     },
+    "Приложение Happ несколько раз удаляли из App Store. Убедитесь, что у вас установлена актуальная версия — иначе VPN будет работать нестабильно." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Happ app has been removed from the App Store several times. Make sure you have the current version installed — otherwise the VPN will work unstably."
+          }
+        }
+      }
+    },
+    "Проверить Happ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Happ"
+          }
+        }
+      }
+    },
     "Проверить скорость и доступность" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1038,12 +1156,33 @@
         }
       }
     },
+    "Проверьте версию Happ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your Happ version"
+          }
+        }
+      }
+    },
     "Проверьте, что интернет и серверы отвечают. Если что-то красное — пришлите скрин в поддержку." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Check that the internet and servers respond. If anything is red, send a screenshot to support."
+          }
+        }
+      }
+    },
+    "Проверьте, что установлена актуальная версия Happ (кнопка «Скачать Happ» на экране «Подключение»: «Открыть/Обновить» — ок, «Установить» — переустановите Happ)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make sure you have the current Happ version (the “Download Happ” button on the Connection screen: “Open/Update” — OK, “Install” — reinstall Happ)."
           }
         }
       }

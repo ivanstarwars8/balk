@@ -5,6 +5,9 @@ struct ConnectView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var importInFlight: Bool = false
+    // Blocking Happ-version advisory. Bump the key suffix to re-show it to
+    // everyone after an important change.
+    @AppStorage("happNoticeAck_v1") private var happNoticeAck: Bool = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,6 +41,9 @@ struct ConnectView: View {
                 await session.loadSubscriptionURL()
             }
             await session.loadNotices()
+        }
+        .fullScreenCover(isPresented: .init(get: { !happNoticeAck }, set: { _ in })) {
+            HappNoticeView(onCheck: openHappStore, onAck: { happNoticeAck = true })
         }
     }
 
@@ -269,3 +275,69 @@ struct ConnectView: View {
     }
 
 }
+/// Blocking, non-dismissable advisory shown until the user taps "Понятно".
+/// Presented as a fullScreenCover so nothing behind it is tappable.
+struct HappNoticeView: View {
+    @Environment(\.theme) var t
+    var onCheck: () -> Void
+    var onAck: () -> Void
+
+    var body: some View {
+        ZStack {
+            t.bg.ignoresSafeArea()
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: 18) {
+                    ZStack {
+                        Circle().fill(t.warn.opacity(0.16)).frame(width: 72, height: 72)
+                        QXIcon(name: "shield", size: 36, color: t.warn, weight: .medium)
+                    }
+                    .padding(.top, 30)
+
+                    Text("Проверьте версию Happ")
+                        .font(AppFont.title(24, .bold))
+                        .foregroundStyle(t.text)
+                        .multilineTextAlignment(.center)
+
+                    VStack(alignment: .leading, spacing: 14) {
+                        Text("Приложение Happ несколько раз удаляли из App Store. Убедитесь, что у вас установлена актуальная версия — иначе VPN будет работать нестабильно.")
+                        Text("Как проверить: нажмите «Проверить Happ» ниже.")
+                            .foregroundStyle(t.text)
+                            .fontWeight(.semibold)
+                        bullet("Кнопка «Открыть» или «Обновить» — всё в порядке, у вас новая версия.")
+                        bullet("Кнопка «Загрузить»/«Установить» — удалите старый Happ (если он установлен) и установите заново из App Store.")
+                    }
+                    .font(AppFont.ui(14.5))
+                    .foregroundStyle(t.muted)
+                    .lineSpacing(3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(16)
+                    .background(t.surface)
+                    .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 18))
+
+                    Spacer(minLength: 0)
+
+                    VStack(spacing: 11) {
+                        PrimaryButton(title: "Проверить Happ", icon: "download",
+                                      kind: .secondary, action: onCheck)
+                        PrimaryButton(title: "Понятно", icon: "check", action: onAck)
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
+                .frame(minHeight: 640)
+            }
+        }
+        .interactiveDismissDisabled(true)
+    }
+
+    private func bullet(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Circle().fill(t.accent).frame(width: 6, height: 6).padding(.top, 7)
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+    }
+}
+
