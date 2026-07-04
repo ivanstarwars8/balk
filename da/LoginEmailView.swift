@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginEmailView: View {
     @Environment(\.theme) var t
+    @Environment(\.openURL) var openURL
     @EnvironmentObject var session: AuthSession
     @State private var email: String = ""
     @State private var noAccount: Bool = false
@@ -40,11 +41,26 @@ struct LoginEmailView: View {
                     .keyboardType(.emailAddress)
 
                 if noAccount {
-                    HStack(spacing: 6) {
-                        QXIcon(name: "lock", size: 13, color: t.danger, weight: .medium)
-                        Text("Аккаунт не найден. Проверьте адрес почты.")
-                            .font(AppFont.ui(12.5))
-                            .foregroundStyle(t.danger)
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack(spacing: 6) {
+                            QXIcon(name: "lock", size: 13, color: t.danger, weight: .medium)
+                            Text("Аккаунт с такой почтой не найден.")
+                                .font(AppFont.ui(12.5))
+                                .foregroundStyle(t.danger)
+                        }
+                        Button {
+                            if let url = URL(string: "https://badrimgu.com/register") {
+                                openURL(url)
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Text("Создать аккаунт на badrimgu.com")
+                                    .font(AppFont.ui(13, .semibold))
+                                    .foregroundStyle(t.accentText)
+                                QXIcon(name: "arrowR", size: 13, color: t.accentText, weight: .semibold)
+                            }
+                        }
+                        .buttonStyle(.plain)
                     }
                     .padding(.horizontal, 4)
                 } else if let err = session.lastError {
@@ -76,7 +92,7 @@ struct LoginEmailView: View {
 
             HStack(spacing: 8) {
                 QXIcon(name: "lock", size: 13, color: t.faint, weight: .medium)
-                Text("Защищённое соединение · api.badrimgu.com")
+                Text("Защищённое соединение · badrimgu.com")
                     .font(AppFont.ui(12.5))
                     .foregroundStyle(t.muted)
             }

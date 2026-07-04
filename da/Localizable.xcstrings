@@ -160,11 +160,22 @@
       }
     },
     "Аккаунт не найден. Проверьте адрес почты." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Account not found. Check your email address."
+          }
+        }
+      }
+    },
+    "Аккаунт с такой почтой не найден." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No account found for this email."
           }
         }
       }
@@ -461,11 +472,22 @@
       }
     },
     "Защищённое соединение · api.badrimgu.com" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Secure connection · api.badrimgu.com"
+          }
+        }
+      }
+    },
+    "Защищённое соединение · badrimgu.com" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Secure connection · badrimgu.com"
           }
         }
       }
@@ -1224,6 +1246,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "First install Happ, then tap “Import into Happ” — your subscription is added automatically and encrypted."
+          }
+        }
+      }
+    },
+    "Создать аккаунт на badrimgu.com" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create an account at badrimgu.com"
           }
         }
       }
