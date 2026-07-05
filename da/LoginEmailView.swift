@@ -2,11 +2,11 @@ import SwiftUI
 
 struct LoginEmailView: View {
     @Environment(\.theme) var t
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var session: AuthSession
     @State private var email: String = ""
     @State private var noAccount: Bool = false
     var onContinue: (String) -> Void = { _ in }
+    var onRegister: (String) -> Void = { _ in }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -49,12 +49,10 @@ struct LoginEmailView: View {
                                 .foregroundStyle(t.danger)
                         }
                         Button {
-                            if let url = URL(string: "https://badrimgu.com/register") {
-                                openURL(url)
-                            }
+                            onRegister(email.trimmingCharacters(in: .whitespacesAndNewlines))
                         } label: {
                             HStack(spacing: 4) {
-                                Text("Создать аккаунт на badrimgu.com")
+                                Text("Создать аккаунт")
                                     .font(AppFont.ui(13, .semibold))
                                     .foregroundStyle(t.accentText)
                                 QXIcon(name: "arrowR", size: 13, color: t.accentText, weight: .semibold)

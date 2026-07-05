@@ -36,6 +36,13 @@ struct LoginRequest: Codable {
     let password: String
 }
 
+/// Registration reuses the login response shape; the backend returns the same
+/// token/user/subscription bundle (+ `trial_granted`) from POST /auth/register.
+struct RegisterRequest: Codable {
+    let email: String
+    let password: String
+}
+
 /// Login can return either flat tokens or nested in "tokens". We accept both.
 struct LoginResponse: Codable {
     let access_token: String?
@@ -45,6 +52,7 @@ struct LoginResponse: Codable {
     let user: AppUser?
     let subscription: Subscription?
     let subscription_url: SubscriptionURL?
+    let trial_granted: Bool?
 
     var resolvedTokens: Tokens? {
         if let t = tokens { return t }

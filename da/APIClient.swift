@@ -115,6 +115,13 @@ actor APIClient {
         if let code {
             switch code {
             case "invalid_credentials":     return String(localized: "Неверная почта или пароль")
+            case "invalid_email":           return String(localized: "Некорректная почта")
+            case "already_exists":          return String(localized: "Аккаунт с такой почтой уже существует")
+            case "password_too_short":      return String(localized: "Пароль слишком короткий (минимум 8 символов)")
+            case "password_too_long":       return String(localized: "Пароль слишком длинный")
+            case "password_needs_letter":   return String(localized: "Добавьте в пароль хотя бы одну букву")
+            case "password_needs_digit":    return String(localized: "Добавьте в пароль хотя бы одну цифру")
+            case "provisioning_failed":     return String(localized: "Не удалось создать аккаунт, попробуйте позже")
             case "account_locked":          return String(localized: "Аккаунт временно заблокирован (5 ошибок подряд). Подождите 30 минут.")
             case "no_active_subscription":  return String(localized: "Подписка истекла или отсутствует")
             case "device_not_found":        return String(localized: "Устройство не найдено")

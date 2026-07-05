@@ -12,6 +12,7 @@ final class AuthSession: ObservableObject {
     @Published private(set) var bootstrapping: Bool = true
 
     @Published var loginInFlight: Bool = false
+    @Published var registerInFlight: Bool = false
     @Published var emailCheckInFlight: Bool = false
     @Published var lastError: String?
 
@@ -79,6 +80,45 @@ final class AuthSession: ObservableObject {
             let r: LoginResponse = try await APIClient.shared.post(
                 "/auth/login",
                 body: LoginRequest(email: email, password: password),
+                auth: false
+            )
+            guard let tokens = r.resolvedTokens else {
+                lastError = String(localized: "Сервер не вернул токены")
+                return false
+            }
+            await APIClient.shared.setTokens(tokens)
+            if let u = r.user {
+                self.user = u
+                self.subscription = r.subscription
+                self.subscriptionURL = r.subscription_url
+                saveCachedMe(MeResponse(
+                    id: u.id ?? "", email: u.email ?? "",
+                    created_at: u.created_at,
+                    must_change_password: u.must_change_password,
+                    subscription: r.subscription
+                ))
+            } else {
+                await refreshMe()
+            }
+            return true
+        } catch {
+            lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            return false
+        }
+    }
+
+    /// Creates a brand-new account in-app (email + password) and signs in
+    /// immediately. The backend grants a short trial so the fresh user can
+    /// import a working config right away. Returns false on validation/server
+    /// error (message in `lastError`).
+    func register(email: String, password: String) async -> Bool {
+        registerInFlight = true
+        lastError = nil
+        defer { registerInFlight = false }
+        do {
+            let r: LoginResponse = try await APIClient.shared.post(
+                "/auth/register",
+                body: RegisterRequest(email: email, password: password),
                 auth: false
             )
             guard let tokens = r.resolvedTokens else {

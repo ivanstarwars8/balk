@@ -5,7 +5,7 @@ struct ContentView: View {
     @State private var authStep: AuthStep = .email
     @State private var pendingEmail: String = ""
 
-    enum AuthStep { case email, password }
+    enum AuthStep { case email, password, register }
 
     var body: some View {
         ThemeProvider {
@@ -39,12 +39,23 @@ struct ContentView: View {
     private var authFlow: some View {
         switch authStep {
         case .email:
-            LoginEmailView(onContinue: { email in
-                pendingEmail = email
-                withAnimation { authStep = .password }
-            })
+            LoginEmailView(
+                onContinue: { email in
+                    pendingEmail = email
+                    withAnimation { authStep = .password }
+                },
+                onRegister: { email in
+                    pendingEmail = email
+                    withAnimation { authStep = .register }
+                }
+            )
         case .password:
             LoginPasswordView(
+                email: pendingEmail,
+                onBack: { withAnimation { authStep = .email } }
+            )
+        case .register:
+            RegisterView(
                 email: pendingEmail,
                 onBack: { withAnimation { authStep = .email } }
             )
