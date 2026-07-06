@@ -1,116 +1,6 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
-    "Создать аккаунт" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create account"
-          }
-        }
-      }
-    },
-    "Придумайте пароль — аккаунт создастся сразу, а пробный доступ активируется автоматически." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a password — your account is created instantly and a trial starts automatically."
-          }
-        }
-      }
-    },
-    "Минимум 8 символов, буква и цифра" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "At least 8 characters, a letter and a digit"
-          }
-        }
-      }
-    },
-    "Создаём…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Creating…"
-          }
-        }
-      }
-    },
-    "Некорректная почта" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid email"
-          }
-        }
-      }
-    },
-    "Аккаунт с такой почтой уже существует" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "An account with this email already exists"
-          }
-        }
-      }
-    },
-    "Пароль слишком короткий (минимум 8 символов)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password is too short (at least 8 characters)"
-          }
-        }
-      }
-    },
-    "Пароль слишком длинный" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password is too long"
-          }
-        }
-      }
-    },
-    "Добавьте в пароль хотя бы одну букву" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add at least one letter to the password"
-          }
-        }
-      }
-    },
-    "Добавьте в пароль хотя бы одну цифру" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add at least one digit to the password"
-          }
-        }
-      }
-    },
-    "Не удалось создать аккаунт, попробуйте позже" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Couldn't create the account, try again later"
-          }
-        }
-      }
-    },
     "" : {
 
     },
@@ -286,6 +176,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No account found for this email."
+          }
+        }
+      }
+    },
+    "Аккаунт с такой почтой уже существует" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An account with this email already exists"
           }
         }
       }
@@ -536,6 +436,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "until"
+          }
+        }
+      }
+    },
+    "Добавьте в пароль хотя бы одну букву" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add at least one letter to the password"
+          }
+        }
+      }
+    },
+    "Добавьте в пароль хотя бы одну цифру" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add at least one digit to the password"
           }
         }
       }
@@ -856,6 +776,16 @@
         }
       }
     },
+    "Минимум 8 символов, буква и цифра" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "At least 8 characters, a letter and a digit"
+          }
+        }
+      }
+    },
     "мс" : {
       "localizations" : {
         "en" : {
@@ -929,12 +859,32 @@
         }
       }
     },
+    "Не удалось создать аккаунт, попробуйте позже" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't create the account, try again later"
+          }
+        }
+      }
+    },
     "Неверная почта или пароль" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wrong email or password"
+          }
+        }
+      }
+    },
+    "Некорректная почта" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid email"
           }
         }
       }
@@ -1095,6 +1045,26 @@
         }
       }
     },
+    "Пароль слишком длинный" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password is too long"
+          }
+        }
+      }
+    },
+    "Пароль слишком короткий (минимум 8 символов)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password is too short (at least 8 characters)"
+          }
+        }
+      }
+    },
     "Поддерживаемые клиенты" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1208,6 +1178,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Legal"
+          }
+        }
+      }
+    },
+    "Придумайте пароль — аккаунт создастся сразу, а пробный доступ активируется автоматически." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a password — your account is created instantly and a trial starts automatically."
           }
         }
       }
@@ -1510,7 +1490,29 @@
         }
       }
     },
+    "Создаём…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creating…"
+          }
+        }
+      }
+    },
+    "Создать аккаунт" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create account"
+          }
+        }
+      }
+    },
     "Создать аккаунт на badrimgu.com" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

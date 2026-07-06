@@ -73,6 +73,18 @@ actor APIClient {
         try await send(method: "POST", path: path, bodyData: nil, auth: auth)
     }
 
+    /// Registers the APNs device token with the backend. Fire-and-forget:
+    /// only meaningful when signed in; silently no-ops otherwise.
+    /// NOTE: endpoint/field names to be confirmed with backend.
+    func registerPushToken(_ token: String) async {
+        guard accessToken != nil else { return }
+        struct Body: Encodable { let token: String; let platform: String }
+        let _: EmptyResponse? = try? await post(
+            "/me/push_token",
+            body: Body(token: token, platform: "ios")
+        )
+    }
+
     // MARK: - Core
 
     private func send<T: Decodable>(method: String, path: String,

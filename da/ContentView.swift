@@ -89,6 +89,12 @@ struct MainTabs: View {
                 .tabItem { Label("Профиль", systemImage: "person.fill") }
         }
         .tint(t.accent)
+        .task {
+            // Ask for notification permission and register for APNs once the
+            // user is inside the app (authenticated).
+            await PushCenter.shared.requestAndRegister()
+            await PushCenter.shared.resendIfNeeded()
+        }
     }
 }
 
