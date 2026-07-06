@@ -53,7 +53,8 @@ struct ConnectView: View {
         }
         .sheet(isPresented: $showImportNotice) {
             HappNoticeView(
-                onCheck: openHappStore,
+                onCheckRU: { openHappStore(russia: true) },
+                onCheckGlobal: { openHappStore(russia: false) },
                 onProceed: {
                     showImportNotice = false
                     openInHapp()
@@ -341,7 +342,8 @@ struct ConnectView: View {
 /// "Импортировать" proceeds with the actual import.
 struct HappNoticeView: View {
     @Environment(\.theme) var t
-    var onCheck: () -> Void
+    var onCheckRU: () -> Void
+    var onCheckGlobal: () -> Void
     var onProceed: () -> Void
 
     var body: some View {
@@ -380,8 +382,10 @@ struct HappNoticeView: View {
                     Spacer(minLength: 0)
 
                     VStack(spacing: 11) {
-                        PrimaryButton(title: "Проверить Happ", icon: "download",
-                                      kind: .secondary, action: onCheck)
+                        PrimaryButton(title: "Проверить Happ (Россия)", icon: "download",
+                                      kind: .secondary, action: onCheckRU)
+                        PrimaryButton(title: "Проверить Happ (Global)", icon: "download",
+                                      kind: .secondary, action: onCheckGlobal)
                         PrimaryButton(title: "Импортировать", icon: "arrowR", action: onProceed)
                     }
                 }

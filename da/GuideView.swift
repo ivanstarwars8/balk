@@ -16,14 +16,23 @@ struct GuideRootView: View {
             IOSNav(title: "Инструкция")
 
             ScrollView(.vertical, showsIndicators: false) {
-                if session.guides.isEmpty {
-                    Text("Инструкция пока пуста.")
-                        .font(AppFont.ui(14))
-                        .foregroundStyle(t.muted)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 40)
-                } else {
-                    VStack(spacing: 12) {
+                VStack(spacing: 12) {
+                    // Pinned troubleshooting entry (always available).
+                    NavigationLink(destination: DiagnosticsView()) {
+                        GuideRow(title: String(localized: "Устранение неполадок"),
+                                 subtitle: String(localized: "Проверка DNS и советы, если VPN плохо работает"),
+                                 image: nil)
+                    }
+                    .buttonStyle(.plain)
+
+                    if session.guides.isEmpty {
+                        Text("Другие инструкции появятся здесь.")
+                            .font(AppFont.ui(13))
+                            .foregroundStyle(t.faint)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 6)
+                            .padding(.top, 6)
+                    } else {
                         ForEach(session.guides) { topic in
                             NavigationLink(destination: GuideTopicDetail(topic: topic)) {
                                 GuideRow(title: topic.title,
@@ -35,10 +44,10 @@ struct GuideRootView: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 4)
-                    .padding(.bottom, 16)
                 }
+                .padding(.horizontal, 16)
+                .padding(.top, 4)
+                .padding(.bottom, 16)
             }
             .refreshable { await session.loadGuides() }
         }

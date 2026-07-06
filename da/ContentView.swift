@@ -85,9 +85,6 @@ struct MainTabs: View {
             SupportView()
                 .tabItem { Label("Поддержка", systemImage: "bubble.left.and.bubble.right.fill") }
 
-            DiagnosticsView()
-                .tabItem { Label("Неполадки", systemImage: "waveform.path.ecg") }
-
             ProfileView()
                 .tabItem { Label("Профиль", systemImage: "person.fill") }
         }

@@ -13,8 +13,8 @@ struct Probe: Identifiable {
 enum ProbeState: Equatable {
     case idle
     case running
-    case ok       // DNS resolved
-    case fail     // DNS failed
+    case ok(ms: Int)   // DNS resolved, with resolution time
+    case fail          // DNS failed
 }
 
 @MainActor
@@ -22,6 +22,8 @@ final class NetworkDiagnostics: ObservableObject {
     @Published var probes: [Probe] = [
         Probe(name: "api.badrimgu.com", host: "api.badrimgu.com"),
         Probe(name: "ya.ru", host: "ya.ru"),
+        Probe(name: "google.com", host: "google.com"),
+        Probe(name: "Cloudflare", host: "one.one.one.one"),
     ]
     @Published var running: Bool = false
 
@@ -53,9 +55,11 @@ final class NetworkDiagnostics: ObservableObject {
                                      ai_socktype: SOCK_STREAM, ai_protocol: 0,
                                      ai_addrlen: 0, ai_canonname: nil, ai_addr: nil, ai_next: nil)
                 var result: UnsafeMutablePointer<addrinfo>?
+                let start = Date()
                 let err = getaddrinfo(host, nil, &hints, &result)
+                let ms = Int(Date().timeIntervalSince(start) * 1000)
                 if let result { freeaddrinfo(result) }
-                cont.resume(returning: err == 0 ? .ok : .fail)
+                cont.resume(returning: err == 0 ? .ok(ms: ms) : .fail)
             }
         }
     }

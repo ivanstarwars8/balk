@@ -75,6 +75,7 @@
       }
     },
     "DNS-проверка показывает, резолвятся ли адреса серверов. Проверка запускается по кнопке." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -106,6 +107,7 @@
       }
     },
     "OK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -543,6 +545,16 @@
         }
       }
     },
+    "Другие инструкции появятся здесь." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More instructions will appear here."
+          }
+        }
+      }
+    },
     "Другое устройство" : {
       "localizations" : {
         "en" : {
@@ -745,6 +757,7 @@
       }
     },
     "Инструкция пока пуста." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -948,7 +961,6 @@
       }
     },
     "мс" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1094,6 +1106,7 @@
       }
     },
     "Неполадки" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1420,6 +1433,28 @@
         }
       }
     },
+    "Проверить Happ (Global)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Happ (Global)"
+          }
+        }
+      }
+    },
+    "Проверить Happ (Россия)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Happ (Russia)"
+          }
+        }
+      }
+    },
     "Проверить скорость и доступность" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1438,6 +1473,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Check connection"
+          }
+        }
+      }
+    },
+    "Проверка DNS и советы, если VPN плохо работает" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DNS check and tips if the VPN works poorly"
           }
         }
       }
@@ -1883,7 +1928,6 @@
       }
     },
     "Устранение неполадок" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1951,6 +1995,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This is your account cabinet — temporary"
+          }
+        }
+      }
+    },
+    "Это проверка резолвинга DNS (не пинг сервера): показывает, доходит ли устройство до DNS и за сколько мс. Если адрес не резолвится — у вас проблема с сетью или DNS-блокировка." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a DNS-resolution check (not a server ping): it shows whether the device reaches DNS and how many ms it takes. If an address doesn’t resolve, you have a network problem or DNS blocking."
           }
         }
       }

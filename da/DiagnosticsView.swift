@@ -2,11 +2,12 @@ import SwiftUI
 
 struct DiagnosticsView: View {
     @Environment(\.theme) var t
+    @Environment(\.dismiss) var dismiss
     @StateObject private var diag = NetworkDiagnostics()
 
     var body: some View {
         VStack(spacing: 0) {
-            IOSNav(title: "Устранение неполадок")
+            IOSNav(title: "Устранение неполадок", back: "Инструкция", onBack: { dismiss() })
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {
@@ -21,7 +22,7 @@ struct DiagnosticsView: View {
 
                     hostsCard
 
-                    Text("DNS-проверка показывает, резолвятся ли адреса серверов. Проверка запускается по кнопке.")
+                    Text("Это проверка резолвинга DNS (не пинг сервера): показывает, доходит ли устройство до DNS и за сколько мс. Если адрес не резолвится — у вас проблема с сетью или DNS-блокировка.")
                         .font(AppFont.ui(12))
                         .foregroundStyle(t.faint)
                         .lineSpacing(3)
@@ -140,10 +141,11 @@ struct DiagnosticsView: View {
             Text("—").font(AppFont.mono(13)).foregroundStyle(t.faint)
         case .running:
             ProgressView().tint(t.muted)
-        case .ok:
+        case .ok(let ms):
             HStack(spacing: 5) {
-                Circle().fill(t.success).frame(width: 7, height: 7)
-                Text("OK").font(AppFont.mono(14, .medium)).foregroundStyle(t.success)
+                Circle().fill(color(forMs: ms)).frame(width: 7, height: 7)
+                Text("\(ms)").font(AppFont.mono(14, .medium)).foregroundStyle(color(forMs: ms))
+                Text("мс").font(AppFont.mono(10)).foregroundStyle(t.faint)
             }
         case .fail:
             HStack(spacing: 5) {
@@ -151,5 +153,11 @@ struct DiagnosticsView: View {
                 Text("не резолвится").font(AppFont.ui(13, .medium)).foregroundStyle(t.danger)
             }
         }
+    }
+
+    private func color(forMs ms: Int) -> Color {
+        if ms < 100 { return t.success }
+        if ms < 400 { return t.warn }
+        return t.danger
     }
 }
