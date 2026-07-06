@@ -227,6 +227,10 @@ final class AuthSession: ObservableObject {
     }
 
     func logout() async {
+        // Remove the push token while still authenticated (DELETE needs Bearer).
+        if let pushToken = PushCenter.shared.token {
+            await APIClient.shared.unregisterPushToken(pushToken)
+        }
         let _: EmptyResponse? = try? await APIClient.shared.postNoBody("/auth/logout")
         await APIClient.shared.clearTokens()
         KeychainStore.remove("chat_thread_id")

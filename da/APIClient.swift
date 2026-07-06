@@ -73,16 +73,31 @@ actor APIClient {
         try await send(method: "POST", path: path, bodyData: nil, auth: auth)
     }
 
-    /// Registers the APNs device token with the backend. Fire-and-forget:
-    /// only meaningful when signed in; silently no-ops otherwise.
-    /// NOTE: endpoint/field names to be confirmed with backend.
+    private struct PushTokenBody: Encodable {
+        let token: String
+        let platform: String
+        let app_version: String
+    }
+
+    private var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+    }
+
+    /// Registers the APNs device token with the backend (shared endpoint with
+    /// Android). Fire-and-forget: only meaningful when signed in.
     func registerPushToken(_ token: String) async {
         guard accessToken != nil else { return }
-        struct Body: Encodable { let token: String; let platform: String }
         let _: EmptyResponse? = try? await post(
-            "/me/push_token",
-            body: Body(token: token, platform: "ios")
+            "/devices/push-token",
+            body: PushTokenBody(token: token, platform: "ios", app_version: appVersion)
         )
+    }
+
+    /// Removes the token on logout so a signed-out device stops receiving pushes.
+    func unregisterPushToken(_ token: String) async {
+        let data = try? encoder.encode(PushTokenBody(token: token, platform: "ios", app_version: appVersion))
+        let _: EmptyResponse? = try? await send(method: "DELETE", path: "/devices/push-token",
+                                                bodyData: data, auth: true)
     }
 
     // MARK: - Core
