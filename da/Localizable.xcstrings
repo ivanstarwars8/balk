@@ -74,7 +74,18 @@
         }
       }
     },
+    "DNS-проверка показывает, резолвятся ли адреса серверов. Проверка запускается по кнопке." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The DNS check shows whether server addresses resolve. The check runs on the button."
+          }
+        }
+      }
+    },
     "DNS-проверка показывает, резолвятся ли адреса серверов. Тест скорости качает пробный файл ~8 МБ. Проверка запускается по кнопке." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -542,6 +553,17 @@
         }
       }
     },
+    "Если DNS выше «не резолвится» — проблема с сетью, попробуйте другую сеть (Wi-Fi / моб. интернет)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If the DNS above shows “not resolving”, it’s a network issue — try another network (Wi-Fi / mobile data)."
+          }
+        }
+      }
+    },
     "Если VPN плохо работает" : {
       "localizations" : {
         "en" : {
@@ -670,6 +692,7 @@
       }
     },
     "измеряем…" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -893,6 +916,7 @@
       }
     },
     "Мбит/с" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1009,6 +1033,7 @@
       }
     },
     "не удалось" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1664,6 +1689,7 @@
       }
     },
     "Скорость загрузки" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

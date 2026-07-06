@@ -19,10 +19,9 @@ struct DiagnosticsView: View {
                     .disabled(diag.running)
                     .opacity(diag.running ? 0.6 : 1)
 
-                    speedCard
                     hostsCard
 
-                    Text("DNS-проверка показывает, резолвятся ли адреса серверов. Тест скорости качает пробный файл ~8 МБ. Проверка запускается по кнопке.")
+                    Text("DNS-проверка показывает, резолвятся ли адреса серверов. Проверка запускается по кнопке.")
                         .font(AppFont.ui(12))
                         .foregroundStyle(t.faint)
                         .lineSpacing(3)
@@ -54,7 +53,7 @@ struct DiagnosticsView: View {
             helpRow("Проверьте, что установлена актуальная версия Happ (кнопка «Скачать Happ» на экране «Подключение»: «Открыть/Обновить» — ок, «Установить» — переустановите Happ).")
             helpRow("В Happ выберите другой сервер и переподключитесь.")
             helpRow("Выключите и снова включите VPN в Happ.")
-            helpRow("Если скорость выше близка к нулю или хосты «нет ответа» — проблема с сетью или сервером, попробуйте другую сеть (Wi-Fi/моб. интернет).")
+            helpRow("Если DNS выше «не резолвится» — проблема с сетью, попробуйте другую сеть (Wi-Fi / моб. интернет).")
             helpRow("Если не помогло — напишите в «Поддержку» и приложите скрин этого экрана.")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -88,39 +87,6 @@ struct DiagnosticsView: View {
                 .lineSpacing(3)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
-        }
-        .padding(16)
-        .background(t.surface)
-        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-    }
-
-    private var speedCard: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 10) {
-                QXIcon(name: "gauge", size: 20, color: t.accent, weight: .medium)
-                Text("Скорость загрузки")
-                    .font(AppFont.ui(14, .semibold))
-                    .foregroundStyle(t.text)
-                Spacer()
-            }
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                switch diag.speed {
-                case .idle:
-                    Text("—").font(AppFont.mono(34, .medium)).foregroundStyle(t.faint)
-                case .running:
-                    ProgressView().tint(t.accent)
-                    Text("измеряем…").font(AppFont.ui(14)).foregroundStyle(t.muted)
-                case .done(let mbps):
-                    Text(String(format: "%.1f", mbps))
-                        .font(AppFont.mono(34, .medium)).foregroundStyle(t.text)
-                    Text("Мбит/с").font(AppFont.ui(14)).foregroundStyle(t.muted)
-                case .fail:
-                    QXIcon(name: "xmark", size: 20, color: t.danger, weight: .semibold)
-                    Text("не удалось").font(AppFont.ui(14)).foregroundStyle(t.danger)
-                }
-                Spacer()
-            }
         }
         .padding(16)
         .background(t.surface)
