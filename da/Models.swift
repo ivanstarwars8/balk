@@ -122,6 +122,28 @@ struct NoticesResponse: Codable {
     let notices: [Notice]
 }
 
+// Backend-managed instruction/help content (/v1/guides). A topic carries a
+// photo + text and an optional list of subtopics (each also photo + text).
+struct GuideItem: Codable, Identifiable, Equatable, Hashable {
+    let id: Int
+    let title: String
+    let body: String?
+    let image: String?
+}
+
+struct GuideTopic: Codable, Identifiable, Equatable, Hashable {
+    let id: Int
+    let title: String
+    let body: String?
+    let image: String?
+    let subtopics: [GuideItem]?
+}
+
+struct GuidesResponse: Codable {
+    let ok: Bool?
+    let guides: [GuideTopic]
+}
+
 struct APIErrorBody: Codable {
     let error: String?
     let message: String?

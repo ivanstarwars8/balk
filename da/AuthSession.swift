@@ -9,6 +9,7 @@ final class AuthSession: ObservableObject {
     @Published private(set) var subscriptionURL: SubscriptionURL?
     @Published private(set) var devices: [Device] = []
     @Published private(set) var notices: [Notice] = []
+    @Published private(set) var guides: [GuideTopic] = []
     @Published private(set) var bootstrapping: Bool = true
 
     @Published var loginInFlight: Bool = false
@@ -22,6 +23,10 @@ final class AuthSession: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: "notices_cache"),
            let cached = try? JSONDecoder().decode([Notice].self, from: data) {
             self.notices = cached
+        }
+        if let data = UserDefaults.standard.data(forKey: "guides_cache"),
+           let cached = try? JSONDecoder().decode([GuideTopic].self, from: data) {
+            self.guides = cached
         }
         Task { await bootstrap() }
     }
@@ -165,6 +170,21 @@ final class AuthSession: ObservableObject {
             self.notices = r.notices
             if let data = try? JSONEncoder().encode(r.notices) {
                 UserDefaults.standard.set(data, forKey: "notices_cache")
+            }
+        } catch {
+            // Offline / server error: keep whatever the cache gave us.
+        }
+    }
+
+    /// Backend-managed instruction content. Public endpoint; text arrives
+    /// already localized. Cached so the guide survives offline launches.
+    func loadGuides() async {
+        do {
+            let lang = Locale.preferredLanguages.first?.lowercased().hasPrefix("ru") == true ? "ru" : "en"
+            let r: GuidesResponse = try await APIClient.shared.get("/guides?lang=\(lang)", auth: false)
+            self.guides = r.guides
+            if let data = try? JSONEncoder().encode(r.guides) {
+                UserDefaults.standard.set(data, forKey: "guides_cache")
             }
         } catch {
             // Offline / server error: keep whatever the cache gave us.

@@ -5,35 +5,47 @@ struct ConnectView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var importInFlight: Bool = false
+    @State private var showGuide: Bool = false
     // Blocking Happ-version advisory. Bump the key suffix to re-show it to
     // everyone after an important change.
     @AppStorage("happNoticeAck_v1") private var happNoticeAck: Bool = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            IOSNav(title: "Подключение")
+        NavigationStack {
+            VStack(spacing: 0) {
+                IOSNav(title: "Подключение")
 
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 14) {
-                    ForEach(session.notices) { n in
-                        noticeCard(n)
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 14) {
+                        ForEach(session.notices) { n in
+                            noticeCard(n)
+                        }
+                        happCard
+                        if session.subscriptionURL == nil {
+                            expiredCard
+                        } else {
+                            actions
+                            stepsCard
+                            extraDeviceCard
+                        }
+                        // Backend-managed instruction section — the button hides
+                        // itself when the admin hasn't published any content.
+                        if !session.guides.isEmpty {
+                            guideButton
+                        }
                     }
-                    happCard
-                    if session.subscriptionURL == nil {
-                        expiredCard
-                    } else {
-                        actions
-                        stepsCard
-                        extraDeviceCard
-                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 4)
+                    .padding(.bottom, 16)
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 4)
-                .padding(.bottom, 16)
+                .refreshable {
+                    await session.loadSubscriptionURL()
+                    await session.loadNotices()
+                    await session.loadGuides()
+                }
             }
-            .refreshable {
-                await session.loadSubscriptionURL()
-                await session.loadNotices()
+            .navigationDestination(isPresented: $showGuide) {
+                GuideRootView()
             }
         }
         .task {
@@ -41,10 +53,37 @@ struct ConnectView: View {
                 await session.loadSubscriptionURL()
             }
             await session.loadNotices()
+            await session.loadGuides()
         }
         .fullScreenCover(isPresented: .init(get: { !happNoticeAck }, set: { _ in })) {
             HappNoticeView(onCheck: openHappStore, onAck: { happNoticeAck = true })
         }
+    }
+
+    private var guideButton: some View {
+        Button { showGuide = true } label: {
+            HStack(spacing: 12) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10).fill(t.accentSoft).frame(width: 36, height: 36)
+                    QXIcon(name: "book", size: 18, color: t.accent, weight: .medium)
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Инструкция")
+                        .font(AppFont.ui(14, .semibold))
+                        .foregroundStyle(t.text)
+                    Text("Как настроить и пользоваться")
+                        .font(AppFont.ui(12.5))
+                        .foregroundStyle(t.muted)
+                }
+                Spacer()
+                QXIcon(name: "chevR", size: 16, color: t.faint, weight: .semibold)
+            }
+            .padding(16)
+            .background(t.surface)
+            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+        }
+        .buttonStyle(.plain)
     }
 
     /// Backend-managed notice: text arrives already localized; the optional

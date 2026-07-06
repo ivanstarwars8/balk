@@ -85,6 +85,8 @@ struct QXIcon: View {
         case "wifi": return "wifi"
         case "pulse": return "waveform.path.ecg"
         case "xmark": return "xmark"
+        case "book": return "book.fill"
+        case "photo": return "photo"
         default: return "questionmark"
         }
     }
