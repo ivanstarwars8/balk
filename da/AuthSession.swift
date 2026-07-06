@@ -7,6 +7,11 @@ final class AuthSession: ObservableObject {
     @Published private(set) var user: AppUser?
     @Published private(set) var subscription: Subscription?
     @Published private(set) var subscriptionURL: SubscriptionURL?
+    // True ONLY when the server explicitly said there's no active subscription
+    // (a clean 402/no_active_subscription). Stays false when we simply couldn't
+    // reach the server (offline) — so the UI never shows "expired" on a network
+    // hiccup and never hides the install/import buttons.
+    @Published private(set) var subscriptionKnownEmpty: Bool = false
     @Published private(set) var devices: [Device] = []
     @Published private(set) var notices: [Notice] = []
     @Published private(set) var guides: [GuideTopic] = []
@@ -27,6 +32,12 @@ final class AuthSession: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: "guides_cache"),
            let cached = try? JSONDecoder().decode([GuideTopic].self, from: data) {
             self.guides = cached
+        }
+        // Restore the last-known subscription link so an offline launch keeps the
+        // "Импортировать в Happ" button working instead of showing "недоступна".
+        if let data = UserDefaults.standard.data(forKey: "sub_url_cache"),
+           let cached = try? JSONDecoder().decode(SubscriptionURL.self, from: data) {
+            self.subscriptionURL = cached
         }
         Task { await bootstrap() }
     }
@@ -191,13 +202,33 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Refresh the subscription link at most once per `maxAge` (default 24h).
+    /// The import deep link is stable, so there's no need to re-hit /subscription
+    /// on every screen open — the cached link keeps "Импортировать в Happ" alive
+    /// (including offline). Pull-to-refresh still forces a fresh fetch.
+    func loadSubscriptionURLIfStale(maxAge: TimeInterval = 86_400) async {
+        let last = UserDefaults.standard.double(forKey: "sub_url_fetched_at")
+        let age  = Date().timeIntervalSince1970 - last
+        if subscriptionURL != nil && last > 0 && age < maxAge { return }
+        await loadSubscriptionURL()
+    }
+
     func loadSubscriptionURL() async {
         do {
             let s: SubscriptionURL = try await APIClient.shared.get("/subscription")
             self.subscriptionURL = s
+            self.subscriptionKnownEmpty = false
+            if let data = try? JSONEncoder().encode(s) {
+                UserDefaults.standard.set(data, forKey: "sub_url_cache")
+            }
+            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "sub_url_fetched_at")
         } catch APIError.noActiveSubscription {
+            // Confirmed by the server: really no active subscription.
             self.subscriptionURL = nil
+            self.subscriptionKnownEmpty = true
+            UserDefaults.standard.removeObject(forKey: "sub_url_cache")
         } catch {
+            // Offline / transient error: keep the cached link and DON'T flag empty.
             lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
         }
     }
@@ -259,7 +290,10 @@ final class AuthSession: ObservableObject {
         self.user = nil
         self.subscription = nil
         self.subscriptionURL = nil
+        self.subscriptionKnownEmpty = false
         self.devices = []
+        UserDefaults.standard.removeObject(forKey: "sub_url_cache")
+        UserDefaults.standard.removeObject(forKey: "sub_url_fetched_at")
     }
 
     private func applyMe(_ me: MeResponse) {

@@ -21,13 +21,18 @@ struct ConnectView: View {
                             noticeCard(n)
                         }
                         happCard
-                        if session.subscriptionURL == nil {
+                        // Install + import buttons are ALWAYS shown — installing
+                        // Happ needs no network, and the import button must not
+                        // vanish on an offline launch. The "config unavailable"
+                        // banner appears only when the server actually confirmed
+                        // there's no active subscription.
+                        happVersionCard
+                        actions
+                        if session.subscriptionURL == nil && session.subscriptionKnownEmpty {
                             expiredCard
-                        } else {
-                            actions
-                            stepsCard
-                            extraDeviceCard
                         }
+                        stepsCard
+                        extraDeviceCard
                         // Backend-managed instruction section — the button hides
                         // itself when the admin hasn't published any content.
                         if !session.guides.isEmpty {
@@ -49,9 +54,9 @@ struct ConnectView: View {
             }
         }
         .task {
-            if session.subscriptionURL == nil {
-                await session.loadSubscriptionURL()
-            }
+            // Refresh the subscription link at most once a day — the cached link
+            // keeps the import button working (incl. offline) between refreshes.
+            await session.loadSubscriptionURLIfStale()
             await session.loadNotices()
             await session.loadGuides()
         }
@@ -153,7 +158,7 @@ struct ConnectView: View {
             Text("Как подключиться")
                 .font(AppFont.ui(14, .semibold))
                 .foregroundStyle(t.text)
-            stepRow(1, "Скачайте Happ из App Store — кнопка «Скачать Happ» ниже (ссылка для России и остального мира подберётся сама).")
+            stepRow(1, "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша).")
             stepRow(2, "Нажмите «Импортировать в Happ» — подписка добавится в приложение автоматически и в зашифрованном виде.")
             stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
         }
@@ -236,17 +241,55 @@ struct ConnectView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
+    // Import is blocked only when the server CONFIRMED there's no subscription.
+    // Offline (unknown) keeps it tappable — openInHapp fails over to the store.
+    private var importDisabled: Bool {
+        importInFlight || (session.subscriptionURL == nil && session.subscriptionKnownEmpty)
+    }
+
     private var actions: some View {
         VStack(spacing: 11) {
-            PrimaryButton(title: "Скачать Happ", icon: "download",
-                          kind: .secondary, action: openHappStore)
+            PrimaryButton(title: "Скачать Happ (Россия)", icon: "download",
+                          kind: .secondary) { openHappStore(russia: true) }
+            PrimaryButton(title: "Скачать Happ (Global)", icon: "download",
+                          kind: .secondary) { openHappStore(russia: false) }
 
             PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
                           icon: "arrowR",
                           action: openInHapp)
-                .disabled(session.subscriptionURL == nil || importInFlight)
-                .opacity((session.subscriptionURL == nil || importInFlight) ? 0.55 : 1)
+                .disabled(importDisabled)
+                .opacity(importDisabled ? 0.55 : 1)
         }
+    }
+
+    /// Happ ships as TWO separate App Store apps (different bundle IDs): a
+    /// Russia-only listing and a Global one. Apple's rules make each
+    /// unavailable in the other storefront, so we can't rely on auto-detection —
+    /// we show both and explain, letting the user pick the one that opens.
+    private var happVersionCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 10) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(t.warn.opacity(0.16))
+                        .frame(width: 36, height: 36)
+                    QXIcon(name: "download", size: 18, color: t.warn, weight: .medium)
+                }
+                Text("Две версии Happ")
+                    .font(AppFont.ui(14, .semibold))
+                    .foregroundStyle(t.text)
+                Spacer()
+            }
+            Text("В App Store два разных приложения Happ: для России и глобальное (Global). Из-за правил Apple российское не открыть в зарубежном App Store, а глобальное — в российском. Нажмите ту кнопку, которая откроется у вас.")
+                .font(AppFont.ui(13.5))
+                .foregroundStyle(t.muted)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .background(t.surface)
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
     /// Adding another device: the encrypted import is the only supported path —
@@ -298,10 +341,18 @@ struct ConnectView: View {
         }
     }
 
-    /// Happ ships as two separate App Store apps — Global and a Russia-only
-    /// listing (different bundle IDs). The happ:// scheme is shared, so the
-    /// import deep-link doesn't branch; only the *download* link does. Pick by
-    /// the real App Store storefront, not the phone's language.
+    /// Explicit store link — used by the two user-facing download buttons.
+    /// russia=true → the RU-only listing, false → the Global one.
+    private func openHappStore(russia: Bool) {
+        let region = russia ? "ru" : "us"
+        let appID  = russia ? "id6783623643" : "id6504287215"
+        if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
+            openURL(url)
+        }
+    }
+
+    /// Auto-detected store link (by real App Store storefront) — used by the
+    /// import fallback and the Happ-version advisory's "Проверить Happ" button.
     private func openHappStore() {
         Task {
             let ru = await AppStoreRegion.isRussia()

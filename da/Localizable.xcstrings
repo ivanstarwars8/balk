@@ -1,6 +1,56 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
+    "Скачать Happ (Россия)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ (Russia)"
+          }
+        }
+      }
+    },
+    "Скачать Happ (Global)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ (Global)"
+          }
+        }
+      }
+    },
+    "Две версии Happ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Two versions of Happ"
+          }
+        }
+      }
+    },
+    "В App Store два разных приложения Happ: для России и глобальное (Global). Из-за правил Apple российское не открыть в зарубежном App Store, а глобальное — в российском. Нажмите ту кнопку, которая откроется у вас." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are two separate Happ apps in the App Store: a Russian one and a Global one. Apple's rules make the Russian app unavailable abroad and the Global one unavailable in the Russian App Store. Tap whichever button opens for you."
+          }
+        }
+      }
+    },
+    "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша)." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ from the App Store — use the “Russia” or “Global” button below (whichever one opens is yours)."
+          }
+        }
+      }
+    },
     "Инструкция" : {
       "localizations" : {
         "en" : {
