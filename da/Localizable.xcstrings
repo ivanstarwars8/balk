@@ -1,106 +1,6 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
-    "Скачать Happ (Россия)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Happ (Russia)"
-          }
-        }
-      }
-    },
-    "Скачать Happ (Global)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Happ (Global)"
-          }
-        }
-      }
-    },
-    "Две версии Happ" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Two versions of Happ"
-          }
-        }
-      }
-    },
-    "В App Store два разных приложения Happ: для России и глобальное (Global). Из-за правил Apple российское не открыть в зарубежном App Store, а глобальное — в российском. Нажмите ту кнопку, которая откроется у вас." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There are two separate Happ apps in the App Store: a Russian one and a Global one. Apple's rules make the Russian app unavailable abroad and the Global one unavailable in the Russian App Store. Tap whichever button opens for you."
-          }
-        }
-      }
-    },
-    "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша)." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Happ from the App Store — use the “Russia” or “Global” button below (whichever one opens is yours)."
-          }
-        }
-      }
-    },
-    "Инструкция" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guide"
-          }
-        }
-      }
-    },
-    "Разделы" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sections"
-          }
-        }
-      }
-    },
-    "Разделов: " : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sections: "
-          }
-        }
-      }
-    },
-    "Как настроить и пользоваться" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How to set up and use"
-          }
-        }
-      }
-    },
-    "Инструкция пока пуста." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The guide is empty for now."
-          }
-        }
-      }
-    },
     "" : {
 
     },
@@ -159,6 +59,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BADRIMGU · iOS 1.0.0 · Account"
+          }
+        }
+      }
+    },
+    "DNS-проверка" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DNS check"
+          }
+        }
+      }
+    },
+    "DNS-проверка показывает, резолвятся ли адреса серверов. Тест скорости качает пробный файл ~8 МБ. Проверка запускается по кнопке." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The DNS check shows whether server addresses resolve. The speed test downloads a ~8 MB test file. The check runs on the button."
+          }
+        }
+      }
+    },
+    "Happ несколько раз удаляли из App Store. Перед импортом убедитесь, что у вас актуальная версия — иначе VPN будет работать нестабильно." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Happ has been removed from the App Store several times. Before importing, make sure you have the current version — otherwise the VPN will work unstably."
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }
@@ -323,6 +264,16 @@
         }
       }
     },
+    "В App Store два разных приложения Happ: для России и глобальное (Global). Из-за правил Apple российское не открыть в зарубежном App Store, а глобальное — в российском. Нажмите ту кнопку, которая откроется у вас." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are two separate Happ apps in the App Store: a Russian one and a Global one. Apple's rules make the Russian app unavailable abroad and the Global one unavailable in the Russian App Store. Tap whichever button opens for you."
+          }
+        }
+      }
+    },
     "В Happ выберите другой сервер и переподключитесь." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -474,6 +425,16 @@
         }
       }
     },
+    "Две версии Happ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Two versions of Happ"
+          }
+        }
+      }
+    },
     "день" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -591,6 +552,16 @@
         }
       }
     },
+    "Если вы только что скачали Happ по кнопке выше — всё в порядке, продолжайте. Если Happ был установлен раньше — лучше проверьте:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you just downloaded Happ via the button above — you’re fine, continue. If Happ was installed earlier — better check:"
+          }
+        }
+      }
+    },
     "Если не помогло — напишите в «Поддержку» и приложите скрин этого экрана." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -635,11 +606,23 @@
       }
     },
     "Задержка измеряется временем ответа сервера (не ICMP-ping). Тест скорости качает пробный файл ~8 МБ." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Latency is measured by server response time (not ICMP ping). The speed test downloads a ~8 MB test file."
+          }
+        }
+      }
+    },
+    "Запустить проверку" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run check"
           }
         }
       }
@@ -706,6 +689,17 @@
         }
       }
     },
+    "Импортировать" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        }
+      }
+    },
     "Импортировать в Happ" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -713,6 +707,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import into Happ"
+          }
+        }
+      }
+    },
+    "Инструкция" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guide"
+          }
+        }
+      }
+    },
+    "Инструкция пока пуста." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The guide is empty for now."
           }
         }
       }
@@ -739,6 +753,17 @@
         }
       }
     },
+    "Как настроить и пользоваться" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to set up and use"
+          }
+        }
+      }
+    },
     "Как подключиться" : {
       "localizations" : {
         "en" : {
@@ -750,6 +775,7 @@
       }
     },
     "Как проверить: нажмите «Проверить Happ» ниже." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -766,6 +792,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A “Get”/“Install” button — delete your old Happ (if installed) and reinstall it from the App Store."
+          }
+        }
+      }
+    },
+    "Кнопка «Загрузить»/«Установить» — удалите старый Happ и установите заново, потом импортируйте." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A “Get”/“Install” button — delete the old Happ and reinstall it, then import."
           }
         }
       }
@@ -887,11 +924,22 @@
       }
     },
     "мс" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ms"
+          }
+        }
+      }
+    },
+    "Нажмите «Запустить проверку»: проверим DNS серверов и скорость загрузки. Если что-то красное — пришлите скрин в поддержку." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Run check”: we’ll test server DNS and download speed. If anything is red, send a screenshot to support."
           }
         }
       }
@@ -918,6 +966,17 @@
         }
       }
     },
+    "Нажмите «Проверить Happ». Кнопка «Открыть» или «Обновить» — всё в порядке." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Check Happ”. An “Open” or “Update” button means you’re fine."
+          }
+        }
+      }
+    },
     "Назад" : {
       "localizations" : {
         "en" : {
@@ -935,6 +994,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscription not arriving"
+          }
+        }
+      }
+    },
+    "не резолвится" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "not resolving"
           }
         }
       }
@@ -1032,6 +1101,7 @@
       }
     },
     "нет ответа" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1304,6 +1374,7 @@
       }
     },
     "Приложение Happ несколько раз удаляли из App Store. Убедитесь, что у вас установлена актуальная версия — иначе VPN будет работать нестабильно." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1357,6 +1428,7 @@
       }
     },
     "Проверьте, что интернет и серверы отвечают. Если что-то красное — пришлите скрин в поддержку." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1405,6 +1477,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profile"
+          }
+        }
+      }
+    },
+    "Разделов: " : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sections: "
+          }
+        }
+      }
+    },
+    "Разделы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sections"
           }
         }
       }
@@ -1516,6 +1608,17 @@
         }
       }
     },
+    "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша)." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ from the App Store — use the “Russia” or “Global” button below (whichever one opens is yours)."
+          }
+        }
+      }
+    },
     "Скачать Happ" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1523,6 +1626,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download Happ"
+          }
+        }
+      }
+    },
+    "Скачать Happ (Global)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ (Global)"
+          }
+        }
+      }
+    },
+    "Скачать Happ (Россия)" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Happ (Russia)"
           }
         }
       }

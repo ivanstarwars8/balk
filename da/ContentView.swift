@@ -79,6 +79,9 @@ struct MainTabs: View {
             ConnectView()
                 .tabItem { Label("Подключение", systemImage: "qrcode") }
 
+            NavigationStack { GuideRootView() }
+                .tabItem { Label("Инструкция", systemImage: "book") }
+
             SupportView()
                 .tabItem { Label("Поддержка", systemImage: "bubble.left.and.bubble.right.fill") }
 

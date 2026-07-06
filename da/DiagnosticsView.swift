@@ -11,17 +11,18 @@ struct DiagnosticsView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 14) {
                     intro
-                    speedCard
-                    hostsCard
 
-                    PrimaryButton(title: diag.running ? "Проверяем…" : "Проверить соединение",
+                    PrimaryButton(title: diag.running ? "Проверяем…" : "Запустить проверку",
                                   icon: "refresh") {
                         Task { await diag.runAll() }
                     }
                     .disabled(diag.running)
                     .opacity(diag.running ? 0.6 : 1)
 
-                    Text("Задержка измеряется временем ответа сервера (не ICMP-ping). Тест скорости качает пробный файл ~8 МБ.")
+                    speedCard
+                    hostsCard
+
+                    Text("DNS-проверка показывает, резолвятся ли адреса серверов. Тест скорости качает пробный файл ~8 МБ. Проверка запускается по кнопке.")
                         .font(AppFont.ui(12))
                         .foregroundStyle(t.faint)
                         .lineSpacing(3)
@@ -35,9 +36,6 @@ struct DiagnosticsView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .task {
-            if case .idle = diag.speed { await diag.runAll() }
-        }
     }
 
     /// Static help for "VPN works poorly" — the most common fixes, in order.
@@ -84,7 +82,7 @@ struct DiagnosticsView: View {
                 RoundedRectangle(cornerRadius: 10).fill(t.accentSoft).frame(width: 36, height: 36)
                 QXIcon(name: "pulse", size: 18, color: t.accent, weight: .medium)
             }
-            Text("Проверьте, что интернет и серверы отвечают. Если что-то красное — пришлите скрин в поддержку.")
+            Text("Нажмите «Запустить проверку»: проверим DNS серверов и скорость загрузки. Если что-то красное — пришлите скрин в поддержку.")
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
@@ -132,7 +130,7 @@ struct DiagnosticsView: View {
 
     private var hostsCard: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Доступность и задержка".uppercased())
+            Text("DNS-проверка".uppercased())
                 .font(AppFont.ui(11.5, .semibold))
                 .tracking(1.2)
                 .foregroundStyle(t.faint)
@@ -176,23 +174,16 @@ struct DiagnosticsView: View {
             Text("—").font(AppFont.mono(13)).foregroundStyle(t.faint)
         case .running:
             ProgressView().tint(t.muted)
-        case .ok(let ms):
+        case .ok:
             HStack(spacing: 5) {
-                Circle().fill(color(forMs: ms)).frame(width: 7, height: 7)
-                Text("\(ms)").font(AppFont.mono(14, .medium)).foregroundStyle(color(forMs: ms))
-                Text("мс").font(AppFont.mono(10)).foregroundStyle(t.faint)
+                Circle().fill(t.success).frame(width: 7, height: 7)
+                Text("OK").font(AppFont.mono(14, .medium)).foregroundStyle(t.success)
             }
         case .fail:
             HStack(spacing: 5) {
                 QXIcon(name: "xmark", size: 13, color: t.danger, weight: .semibold)
-                Text("нет ответа").font(AppFont.ui(13, .medium)).foregroundStyle(t.danger)
+                Text("не резолвится").font(AppFont.ui(13, .medium)).foregroundStyle(t.danger)
             }
         }
-    }
-
-    private func color(forMs ms: Int) -> Color {
-        if ms < 100 { return t.success }
-        if ms < 300 { return t.warn }
-        return t.danger
     }
 }

@@ -13,7 +13,7 @@ struct GuideRootView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            IOSNav(title: "Инструкция", back: "Подключение", onBack: { dismiss() })
+            IOSNav(title: "Инструкция")
 
             ScrollView(.vertical, showsIndicators: false) {
                 if session.guides.isEmpty {

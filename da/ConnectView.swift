@@ -5,10 +5,10 @@ struct ConnectView: View {
     @EnvironmentObject var session: AuthSession
     @Environment(\.openURL) var openURL
     @State private var importInFlight: Bool = false
-    @State private var showGuide: Bool = false
-    // Blocking Happ-version advisory. Bump the key suffix to re-show it to
-    // everyone after an important change.
-    @AppStorage("happNoticeAck_v1") private var happNoticeAck: Bool = false
+    // Happ-version reminder shown right before importing (not at launch): if
+    // the user just installed Happ via our button it's fine, otherwise they
+    // should verify the app isn't an outdated build.
+    @State private var showImportNotice: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -33,11 +33,6 @@ struct ConnectView: View {
                         }
                         stepsCard
                         extraDeviceCard
-                        // Backend-managed instruction section — the button hides
-                        // itself when the admin hasn't published any content.
-                        if !session.guides.isEmpty {
-                            guideButton
-                        }
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
@@ -49,46 +44,22 @@ struct ConnectView: View {
                     await session.loadGuides()
                 }
             }
-            .navigationDestination(isPresented: $showGuide) {
-                GuideRootView()
-            }
         }
         .task {
             // Refresh the subscription link at most once a day — the cached link
             // keeps the import button working (incl. offline) between refreshes.
             await session.loadSubscriptionURLIfStale()
             await session.loadNotices()
-            await session.loadGuides()
         }
-        .fullScreenCover(isPresented: .init(get: { !happNoticeAck }, set: { _ in })) {
-            HappNoticeView(onCheck: openHappStore, onAck: { happNoticeAck = true })
-        }
-    }
-
-    private var guideButton: some View {
-        Button { showGuide = true } label: {
-            HStack(spacing: 12) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10).fill(t.accentSoft).frame(width: 36, height: 36)
-                    QXIcon(name: "book", size: 18, color: t.accent, weight: .medium)
+        .sheet(isPresented: $showImportNotice) {
+            HappNoticeView(
+                onCheck: openHappStore,
+                onProceed: {
+                    showImportNotice = false
+                    openInHapp()
                 }
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Инструкция")
-                        .font(AppFont.ui(14, .semibold))
-                        .foregroundStyle(t.text)
-                    Text("Как настроить и пользоваться")
-                        .font(AppFont.ui(12.5))
-                        .foregroundStyle(t.muted)
-                }
-                Spacer()
-                QXIcon(name: "chevR", size: 16, color: t.faint, weight: .semibold)
-            }
-            .padding(16)
-            .background(t.surface)
-            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 18))
+            )
         }
-        .buttonStyle(.plain)
     }
 
     /// Backend-managed notice: text arrives already localized; the optional
@@ -256,7 +227,7 @@ struct ConnectView: View {
 
             PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
                           icon: "arrowR",
-                          action: openInHapp)
+                          action: { showImportNotice = true })
                 .disabled(importDisabled)
                 .opacity(importDisabled ? 0.55 : 1)
         }
@@ -365,12 +336,13 @@ struct ConnectView: View {
     }
 
 }
-/// Blocking, non-dismissable advisory shown until the user taps "Понятно".
-/// Presented as a fullScreenCover so nothing behind it is tappable.
+/// Pre-import reminder to verify the Happ version. Shown when the user taps
+/// "Импортировать" — not at launch. "Проверить Happ" opens the store;
+/// "Импортировать" proceeds with the actual import.
 struct HappNoticeView: View {
     @Environment(\.theme) var t
     var onCheck: () -> Void
-    var onAck: () -> Void
+    var onProceed: () -> Void
 
     var body: some View {
         ZStack {
@@ -389,12 +361,12 @@ struct HappNoticeView: View {
                         .multilineTextAlignment(.center)
 
                     VStack(alignment: .leading, spacing: 14) {
-                        Text("Приложение Happ несколько раз удаляли из App Store. Убедитесь, что у вас установлена актуальная версия — иначе VPN будет работать нестабильно.")
-                        Text("Как проверить: нажмите «Проверить Happ» ниже.")
+                        Text("Happ несколько раз удаляли из App Store. Перед импортом убедитесь, что у вас актуальная версия — иначе VPN будет работать нестабильно.")
+                        Text("Если вы только что скачали Happ по кнопке выше — всё в порядке, продолжайте. Если Happ был установлен раньше — лучше проверьте:")
                             .foregroundStyle(t.text)
                             .fontWeight(.semibold)
-                        bullet("Кнопка «Открыть» или «Обновить» — всё в порядке, у вас новая версия.")
-                        bullet("Кнопка «Загрузить»/«Установить» — удалите старый Happ (если он установлен) и установите заново из App Store.")
+                        bullet("Нажмите «Проверить Happ». Кнопка «Открыть» или «Обновить» — всё в порядке.")
+                        bullet("Кнопка «Загрузить»/«Установить» — удалите старый Happ и установите заново, потом импортируйте.")
                     }
                     .font(AppFont.ui(14.5))
                     .foregroundStyle(t.muted)
@@ -410,7 +382,7 @@ struct HappNoticeView: View {
                     VStack(spacing: 11) {
                         PrimaryButton(title: "Проверить Happ", icon: "download",
                                       kind: .secondary, action: onCheck)
-                        PrimaryButton(title: "Понятно", icon: "check", action: onAck)
+                        PrimaryButton(title: "Импортировать", icon: "arrowR", action: onProceed)
                     }
                 }
                 .padding(.horizontal, 24)
@@ -418,7 +390,6 @@ struct HappNoticeView: View {
                 .frame(minHeight: 640)
             }
         }
-        .interactiveDismissDisabled(true)
     }
 
     private func bullet(_ text: String) -> some View {

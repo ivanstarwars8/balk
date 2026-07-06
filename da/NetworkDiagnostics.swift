@@ -2,21 +2,19 @@ import Foundation
 import SwiftUI
 import Combine
 
-/// One reachability/latency probe to a host.
+/// One DNS-resolution probe for a host.
 struct Probe: Identifiable {
     let id = UUID()
     let name: String
-    let url: URL
+    let host: String
     var state: ProbeState = .idle
 }
 
 enum ProbeState: Equatable {
     case idle
     case running
-    case ok(ms: Int)
-    case fail
-
-    var latencyMs: Int? { if case .ok(let ms) = self { return ms } else { return nil } }
+    case ok       // DNS resolved
+    case fail     // DNS failed
 }
 
 /// Result of the download speed test.
@@ -30,65 +28,47 @@ enum SpeedState: Equatable {
 @MainActor
 final class NetworkDiagnostics: ObservableObject {
     @Published var probes: [Probe] = [
-        Probe(name: "BADRIMGU API", url: URL(string: "https://api.badrimgu.com/v1/health")!),
-        Probe(name: "Yandex", url: URL(string: "https://ya.ru")!),
-        Probe(name: "Google", url: URL(string: "https://www.google.com")!),
-        Probe(name: "Cloudflare", url: URL(string: "https://1.1.1.1")!),
+        Probe(name: "api.badrimgu.com", host: "api.badrimgu.com"),
+        Probe(name: "ya.ru", host: "ya.ru"),
     ]
     @Published var speed: SpeedState = .idle
     @Published var running: Bool = false
-
-    private let session: URLSession = {
-        let c = URLSessionConfiguration.ephemeral
-        c.timeoutIntervalForRequest = 8
-        c.timeoutIntervalForResource = 15
-        c.requestCachePolicy = .reloadIgnoringLocalCacheData
-        c.allowsCellularAccess = true
-        return URLSession(configuration: c)
-    }()
 
     func runAll() async {
         guard !running else { return }
         running = true
         defer { running = false }
 
-        // Reset
         for i in probes.indices { probes[i].state = .running }
         speed = .running
 
-        // Latency probes in parallel
+        // DNS resolution checks in parallel
         await withTaskGroup(of: (Int, ProbeState).self) { group in
             for (i, probe) in probes.enumerated() {
-                group.addTask { [weak self] in
-                    let state = await self?.measureLatency(probe.url) ?? .fail
-                    return (i, state)
-                }
+                let host = probe.host
+                group.addTask { (i, await Self.resolveDNS(host)) }
             }
             for await (i, state) in group {
                 if probes.indices.contains(i) { probes[i].state = state }
             }
         }
 
-        // Speed test after latency (avoids skewing latency numbers)
         speed = await measureDownloadSpeed()
     }
 
-    /// Latency = time to first response for a lightweight request.
-    private func measureLatency(_ url: URL) async -> ProbeState {
-        var req = URLRequest(url: url)
-        req.httpMethod = "GET"
-        req.setValue("BADRIMGU-iOS/diag", forHTTPHeaderField: "User-Agent")
-        let start = Date()
-        do {
-            let (_, resp) = try await session.data(for: req)
-            let ms = Int(Date().timeIntervalSince(start) * 1000)
-            if let http = resp as? HTTPURLResponse, (200..<500).contains(http.statusCode) {
-                return .ok(ms: ms)
+    /// DNS resolution check via getaddrinfo — succeeds if the host resolves to
+    /// at least one address. Runs off the main thread.
+    nonisolated static func resolveDNS(_ host: String) async -> ProbeState {
+        await withCheckedContinuation { (cont: CheckedContinuation<ProbeState, Never>) in
+            DispatchQueue.global(qos: .userInitiated).async {
+                var hints = addrinfo(ai_flags: 0, ai_family: AF_UNSPEC,
+                                     ai_socktype: SOCK_STREAM, ai_protocol: 0,
+                                     ai_addrlen: 0, ai_canonname: nil, ai_addr: nil, ai_next: nil)
+                var result: UnsafeMutablePointer<addrinfo>?
+                let err = getaddrinfo(host, nil, &hints, &result)
+                if let result { freeaddrinfo(result) }
+                cont.resume(returning: err == 0 ? .ok : .fail)
             }
-            // Any answer (even TLS/redirect) means the host is reachable.
-            return .ok(ms: ms)
-        } catch {
-            return .fail
         }
     }
 
