@@ -136,14 +136,15 @@ final class AuthSession: ObservableObject {
     /// immediately. The backend grants a short trial so the fresh user can
     /// import a working config right away. Returns false on validation/server
     /// error (message in `lastError`).
-    func register(email: String, password: String, phone: String) async -> Bool {
+    func register(email: String, password: String) async -> Bool {
         registerInFlight = true
         lastError = nil
         defer { registerInFlight = false }
         do {
             let r: LoginResponse = try await APIClient.shared.post(
                 "/auth/register",
-                body: RegisterRequest(email: email, password: password, phone: phone),
+                body: RegisterRequest(email: email, password: password,
+                                      device_id: Self.deviceID()),
                 auth: false
             )
             guard let tokens = r.resolvedTokens else {
@@ -169,6 +170,19 @@ final class AuthSession: ObservableObject {
             lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
             return false
         }
+    }
+
+    /// Stable per-device identifier for registration anti-abuse. Lives in the
+    /// Keychain, which iOS keeps across app deletion + reinstall — so "delete
+    /// the app, sign up again, get another free trial" no longer works. NOT
+    /// tied to the user; deliberately never removed on logout.
+    private static func deviceID() -> String {
+        if let existing = KeychainStore.get("device_id"), !existing.isEmpty {
+            return existing
+        }
+        let fresh = UUID().uuidString.lowercased()
+        KeychainStore.set(fresh, key: "device_id")
+        return fresh
     }
 
     func refreshMe() async {

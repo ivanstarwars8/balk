@@ -38,12 +38,12 @@ struct LoginRequest: Codable {
 
 /// Registration reuses the login response shape; the backend returns the same
 /// token/user/subscription bundle (+ `trial_granted`) from POST /auth/register.
-/// `phone` is collected for anti-abuse (backend accepts registrations without
-/// it from builds ≤17, but this build always sends it).
+/// `device_id` is a Keychain-persisted UUID (survives app reinstall) — the
+/// backend uses it to grant the free trial only once per device.
 struct RegisterRequest: Codable {
     let email: String
     let password: String
-    let phone: String
+    let device_id: String
 }
 
 /// Login can return either flat tokens or nested in "tokens". We accept both.
