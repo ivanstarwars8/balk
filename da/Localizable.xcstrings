@@ -1,236 +1,6 @@
 {
   "sourceLanguage" : "ru",
   "strings" : {
-    "Скачайте Incy из App Store кнопкой ниже." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Incy from the App Store using the button below."
-          }
-        }
-      }
-    },
-    "Нажмите «Импортировать в Incy» — подписка добавится в приложение автоматически." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap “Import into Incy” — your subscription will be added to the app automatically."
-          }
-        }
-      }
-    },
-    "В Incy выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Incy." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Incy, pick a server and tap “Connect”. From there the VPN is managed in Incy."
-          }
-        }
-      }
-    },
-    "Скачать Incy" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Download Incy"
-          }
-        }
-      }
-    },
-    "Импортировать в Incy" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import into Incy"
-          }
-        }
-      }
-    },
-    "VPN работает в приложении Incy" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The VPN runs in the Incy app"
-          }
-        }
-      }
-    },
-    "Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Install Happ first, then tap “Import into Happ” — your subscription will be added automatically."
-          }
-        }
-      }
-    },
-    "Сначала установите Incy, затем нажмите «Импортировать в Incy» — подписка добавится автоматически." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Install Incy first, then tap “Import into Incy” — your subscription will be added automatically."
-          }
-        }
-      }
-    },
-    "Восстановление пароля" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password recovery"
-          }
-        }
-      }
-    },
-    "Отправим 6-значный код на вашу почту. Введите его на следующем шаге вместе с новым паролем." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We'll email you a 6-digit code. Enter it on the next step together with your new password."
-          }
-        }
-      }
-    },
-    "Код отправлен" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code sent"
-          }
-        }
-      }
-    },
-    "Код из письма" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code from the email"
-          }
-        }
-      }
-    },
-    "6 цифр" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "6 digits"
-          }
-        }
-      }
-    },
-    "Новый пароль" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New password"
-          }
-        }
-      }
-    },
-    "Пароль изменён" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Password changed"
-          }
-        }
-      }
-    },
-    "Войдите с новым паролем." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sign in with your new password."
-          }
-        }
-      }
-    },
-    "Ко входу" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back to sign in"
-          }
-        }
-      }
-    },
-    "Отправить код" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Send code"
-          }
-        }
-      }
-    },
-    "Отправляем…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sending…"
-          }
-        }
-      }
-    },
-    "Меняем…" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Changing…"
-          }
-        }
-      }
-    },
-    "Слишком много регистраций. Если у вас уже есть аккаунт — войдите в него." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Too many sign-ups. If you already have an account, sign in instead."
-          }
-        }
-      }
-    },
-    "Неверный или устаревший код. Запросите новый." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wrong or expired code. Request a new one."
-          }
-        }
-      }
-    },
-    "Код устарел. Запросите новый." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The code has expired. Request a new one."
-          }
-        }
-      }
-    },
     "" : {
 
     },
@@ -258,6 +28,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "6 mo"
+          }
+        }
+      }
+    },
+    "6 цифр" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 digits"
           }
         }
       }
@@ -392,11 +173,23 @@
       }
     },
     "VPN работает в приложении Happ" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The VPN runs in the Happ app"
+          }
+        }
+      }
+    },
+    "VPN работает в приложении Incy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The VPN runs in the Incy app"
           }
         }
       }
@@ -539,6 +332,17 @@
         }
       }
     },
+    "В Incy выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Incy." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Incy, pick a server and tap “Connect”. From there the VPN is managed in Incy."
+          }
+        }
+      }
+    },
     "Войдите в аккаунт заново" : {
       "localizations" : {
         "en" : {
@@ -570,6 +374,16 @@
         }
       }
     },
+    "Войдите с новым паролем." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in with your new password."
+          }
+        }
+      }
+    },
     "Войти" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -577,6 +391,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sign in"
+          }
+        }
+      }
+    },
+    "Восстановление пароля" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password recovery"
           }
         }
       }
@@ -976,6 +800,17 @@
         }
       }
     },
+    "Импортировать в Incy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import into Incy"
+          }
+        }
+      }
+    },
     "Инструкция" : {
       "localizations" : {
         "en" : {
@@ -1084,6 +919,48 @@
         }
       }
     },
+    "Ко входу" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back to sign in"
+          }
+        }
+      }
+    },
+    "Код из письма" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code from the email"
+          }
+        }
+      }
+    },
+    "Код отправлен" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code sent"
+          }
+        }
+      }
+    },
+    "Код устарел. Запросите новый." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The code has expired. Request a new one."
+          }
+        }
+      }
+    },
     "Конфигурация недоступна" : {
       "localizations" : {
         "en" : {
@@ -1169,6 +1046,17 @@
         }
       }
     },
+    "Меняем…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changing…"
+          }
+        }
+      }
+    },
     "Мес" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1228,6 +1116,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap “Import into Happ” — your subscription is added to the app automatically and encrypted."
+          }
+        }
+      }
+    },
+    "Нажмите «Импортировать в Incy» — подписка добавится в приложение автоматически." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap “Import into Incy” — your subscription will be added to the app automatically."
           }
         }
       }
@@ -1315,6 +1214,16 @@
         }
       }
     },
+    "Неверный или устаревший код. Запросите новый." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wrong or expired code. Request a new one."
+          }
+        }
+      }
+    },
     "Некорректная почта" : {
       "localizations" : {
         "en" : {
@@ -1389,6 +1298,17 @@
         }
       }
     },
+    "Новый пароль" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New password"
+          }
+        }
+      }
+    },
     "Онлайн" : {
       "localizations" : {
         "en" : {
@@ -1441,6 +1361,38 @@
         }
       }
     },
+    "Отправим 6-значный код на вашу почту. Введите его на следующем шаге вместе с новым паролем." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll email you a 6-digit code. Enter it on the next step together with your new password."
+          }
+        }
+      }
+    },
+    "Отправить код" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send code"
+          }
+        }
+      }
+    },
+    "Отправляем…" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending…"
+          }
+        }
+      }
+    },
     "Оферта" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1479,6 +1431,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Password"
+          }
+        }
+      }
+    },
+    "Пароль изменён" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password changed"
           }
         }
       }
@@ -1919,6 +1881,17 @@
         }
       }
     },
+    "Скачайте Incy из App Store кнопкой ниже." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Incy from the App Store using the button below."
+          }
+        }
+      }
+    },
     "Скачать Happ" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1948,6 +1921,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Download Happ (Russia)"
+          }
+        }
+      }
+    },
+    "Скачать Incy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Download Incy"
           }
         }
       }
@@ -1984,6 +1968,16 @@
         }
       }
     },
+    "Слишком много регистраций. Если у вас уже есть аккаунт — войдите в него." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many sign-ups. If you already have an account, sign in instead."
+          }
+        }
+      }
+    },
     "Сменить пароль" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2007,11 +2001,34 @@
       }
     },
     "Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически и в зашифрованном виде." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "First install Happ, then tap “Import into Happ” — your subscription is added automatically and encrypted."
+          }
+        }
+      }
+    },
+    "Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install Happ first, then tap “Import into Happ” — your subscription will be added automatically."
+          }
+        }
+      }
+    },
+    "Сначала установите Incy, затем нажмите «Импортировать в Incy» — подписка добавится автоматически." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install Incy first, then tap “Import into Incy” — your subscription will be added automatically."
           }
         }
       }
