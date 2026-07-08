@@ -12,6 +12,7 @@ struct RegisterView: View {
     var onBack: () -> Void = {}
 
     @State private var password: String = ""
+    @State private var phone: String = ""
     @State private var hidden: Bool = true
 
     // Mirror the backend rules (pwd_validate): ≥8 chars, at least one letter
@@ -20,6 +21,16 @@ struct RegisterView: View {
     private var hasLetter: Bool { password.range(of: "\\p{L}", options: .regularExpression) != nil }
     private var hasDigit: Bool { password.range(of: "[0-9]", options: .regularExpression) != nil }
     private var passwordValid: Bool { longEnough && hasLetter && hasDigit }
+
+    // Mirror the backend rule (invalid_phone): 7–15 digits, optional leading +;
+    // spaces/dashes/parens are stripped before checking.
+    private var phoneNormalized: String {
+        phone.replacingOccurrences(of: "[\\s\\-().]", with: "", options: .regularExpression)
+    }
+    private var phoneValid: Bool {
+        phoneNormalized.range(of: "^\\+?[0-9]{7,15}$", options: .regularExpression) != nil
+    }
+    private var formValid: Bool { passwordValid && phoneValid }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -52,6 +63,23 @@ struct RegisterView: View {
                            mono: true)
                     .allowsHitTesting(false)
                     .opacity(0.75)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    InputField(icon: "phone", label: "Телефон",
+                               placeholder: "+7 900 000-00-00",
+                               value: $phone)
+                        .keyboardType(.phonePad)
+                    HStack(spacing: 6) {
+                        QXIcon(name: phoneValid ? "check" : "phone",
+                               size: 12,
+                               color: phoneValid ? t.success : t.faint,
+                               weight: .medium)
+                        Text("Номер телефона — для защиты аккаунта")
+                            .font(AppFont.ui(12))
+                            .foregroundStyle(phoneValid ? t.success : t.faint)
+                    }
+                    .padding(.horizontal, 2)
+                }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Пароль".uppercased())
@@ -103,11 +131,12 @@ struct RegisterView: View {
                 icon: "arrowR"
             ) {
                 Task {
-                    _ = await session.register(email: email, password: password)
+                    _ = await session.register(email: email, password: password,
+                                               phone: phoneNormalized)
                 }
             }
-            .disabled(!passwordValid || session.registerInFlight)
-            .opacity(passwordValid ? 1 : 0.55)
+            .disabled(!formValid || session.registerInFlight)
+            .opacity(formValid ? 1 : 0.55)
         }
         .padding(.horizontal, 24)
         .padding(.top, 4)

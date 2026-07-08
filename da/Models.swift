@@ -38,9 +38,12 @@ struct LoginRequest: Codable {
 
 /// Registration reuses the login response shape; the backend returns the same
 /// token/user/subscription bundle (+ `trial_granted`) from POST /auth/register.
+/// `phone` is collected for anti-abuse (backend accepts registrations without
+/// it from builds ≤17, but this build always sends it).
 struct RegisterRequest: Codable {
     let email: String
     let password: String
+    let phone: String
 }
 
 /// Login can return either flat tokens or nested in "tokens". We accept both.
@@ -103,6 +106,23 @@ struct ImportLinkResponse: Codable {
     let ok: Bool?
     let link: String
     let app: String?
+}
+
+/// GET /v1/connect-app — server-side switch: which VPN client the Connect tab
+/// hands out (happ | incy) plus the current store links. Lets the backend flip
+/// clients (e.g. Happ pulled from the RU App Store again) without an app update.
+struct ConnectAppConfig: Codable, Equatable {
+    let app: String
+    let stores: Stores?
+
+    struct Stores: Codable, Equatable {
+        let happ_ru: String?
+        let happ_global: String?
+        let incy: String?
+    }
+
+    var isIncy: Bool { app == "incy" }
+    static let fallback = ConnectAppConfig(app: "happ", stores: nil)
 }
 
 /// Backend-managed notice board (/v1/notices). Text arrives already localized

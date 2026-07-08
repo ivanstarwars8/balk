@@ -15,6 +15,10 @@ final class AuthSession: ObservableObject {
     @Published private(set) var devices: [Device] = []
     @Published private(set) var notices: [Notice] = []
     @Published private(set) var guides: [GuideTopic] = []
+    // Which client the Connect tab offers (happ | incy) — server-controlled
+    // (admin toggle), cached and refreshed at most once a day. The fallback is
+    // Happ so a first-ever offline launch still shows a working flow.
+    @Published private(set) var connectConfig: ConnectAppConfig = .fallback
     @Published private(set) var bootstrapping: Bool = true
 
     @Published var loginInFlight: Bool = false
@@ -39,7 +43,12 @@ final class AuthSession: ObservableObject {
            let cached = try? JSONDecoder().decode(SubscriptionURL.self, from: data) {
             self.subscriptionURL = cached
         }
+        if let data = UserDefaults.standard.data(forKey: "connect_app_cache"),
+           let cached = try? JSONDecoder().decode(ConnectAppConfig.self, from: data) {
+            self.connectConfig = cached
+        }
         Task { await bootstrap() }
+        Task { await loadConnectConfigIfStale() }
     }
 
     func bootstrap() async {
@@ -127,14 +136,14 @@ final class AuthSession: ObservableObject {
     /// immediately. The backend grants a short trial so the fresh user can
     /// import a working config right away. Returns false on validation/server
     /// error (message in `lastError`).
-    func register(email: String, password: String) async -> Bool {
+    func register(email: String, password: String, phone: String) async -> Bool {
         registerInFlight = true
         lastError = nil
         defer { registerInFlight = false }
         do {
             let r: LoginResponse = try await APIClient.shared.post(
                 "/auth/register",
-                body: RegisterRequest(email: email, password: password),
+                body: RegisterRequest(email: email, password: password, phone: phone),
                 auth: false
             )
             guard let tokens = r.resolvedTokens else {
@@ -202,6 +211,31 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Refresh the connect-app switch at most once a day. This is THE cache the
+    /// old hardcoded-client hack lacked: the server flips Happ↔Incy, the app
+    /// picks it up within 24h (pull-to-refresh on Connect forces it), and the
+    /// cached copy keeps the last-known choice working offline.
+    func loadConnectConfigIfStale(maxAge: TimeInterval = 86_400) async {
+        let last = UserDefaults.standard.double(forKey: "connect_app_fetched_at")
+        let age  = Date().timeIntervalSince1970 - last
+        if last > 0 && age < maxAge { return }
+        await loadConnectConfig()
+    }
+
+    func loadConnectConfig() async {
+        do {
+            let r: ConnectAppConfig = try await APIClient.shared.get("/connect-app", auth: false)
+            guard r.app == "happ" || r.app == "incy" else { return }
+            self.connectConfig = r
+            if let data = try? JSONEncoder().encode(r) {
+                UserDefaults.standard.set(data, forKey: "connect_app_cache")
+            }
+            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "connect_app_fetched_at")
+        } catch {
+            // Offline / server error: keep the cached (or fallback) config.
+        }
+    }
+
     /// Refresh the subscription link at most once per `maxAge` (default 24h).
     /// The import deep link is stable, so there's no need to re-hit /subscription
     /// on every screen open — the cached link keeps "Импортировать в Happ" alive
@@ -251,12 +285,13 @@ final class AuthSession: ObservableObject {
         }
     }
 
-    /// Pulls the ready-to-open Happ import deep link from the backend
-    /// (encrypted happ://crypt5/… built server-side). The client never
-    /// encodes the subscription URL itself — single source of truth.
-    func happImportLink() async -> String? {
+    /// Pulls the ready-to-open import deep link from the backend for the
+    /// currently configured client (happ → encrypted happ://crypt5/…,
+    /// incy → incy://import/…). The client never encodes the subscription URL
+    /// itself — single source of truth.
+    func importLink() async -> String? {
         do {
-            let r: ImportLinkResponse = try await APIClient.shared.get("/import_link")
+            let r: ImportLinkResponse = try await APIClient.shared.get("/import_link?app=\(connectConfig.app)")
             return r.link
         } catch {
             lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription

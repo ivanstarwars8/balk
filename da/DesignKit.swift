@@ -54,6 +54,7 @@ struct QXIcon: View {
         case "grid": return "qrcode.viewfinder"
         case "cloud": return "cloud"
         case "key": return "key"
+        case "phone": return "phone.fill"
         case "doc": return "doc.text"
         case "link": return "link"
         case "user": return "person.fill"

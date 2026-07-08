@@ -10,6 +10,10 @@ struct ConnectView: View {
     // should verify the app isn't an outdated build.
     @State private var showImportNotice: Bool = false
 
+    // Server-side switch: which client this screen hands out (happ | incy).
+    private var isIncy: Bool { session.connectConfig.isIncy }
+    private var appName: String { isIncy ? "Incy" : "Happ" }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -17,16 +21,14 @@ struct ConnectView: View {
 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 14) {
-                        ForEach(session.notices) { n in
-                            noticeCard(n)
-                        }
-                        happCard
+                        // The notice board lives on the Profile tab since build 18.
+                        clientCard
                         // Install + import buttons are ALWAYS shown — installing
-                        // Happ needs no network, and the import button must not
-                        // vanish on an offline launch. The "config unavailable"
+                        // the client needs no network, and the import button must
+                        // not vanish on an offline launch. The "config unavailable"
                         // banner appears only when the server actually confirmed
                         // there's no active subscription.
-                        happVersionCard
+                        if !isIncy { happVersionCard }
                         actions
                         if session.subscriptionURL == nil && session.subscriptionKnownEmpty {
                             expiredCard
@@ -40,16 +42,17 @@ struct ConnectView: View {
                 }
                 .refreshable {
                     await session.loadSubscriptionURL()
-                    await session.loadNotices()
+                    await session.loadConnectConfig()   // forced (bypasses the 24h cache)
                     await session.loadGuides()
                 }
             }
         }
         .task {
-            // Refresh the subscription link at most once a day — the cached link
-            // keeps the import button working (incl. offline) between refreshes.
+            // Refresh the subscription link and the connect-app switch at most
+            // once a day — the cached copies keep the import flow working
+            // (incl. offline) between refreshes.
             await session.loadSubscriptionURLIfStale()
-            await session.loadNotices()
+            await session.loadConnectConfigIfStale()
         }
         .sheet(isPresented: $showImportNotice) {
             HappNoticeView(
@@ -57,71 +60,9 @@ struct ConnectView: View {
                 onCheckGlobal: { openHappStore(russia: false) },
                 onProceed: {
                     showImportNotice = false
-                    openInHapp()
+                    openInClient()
                 }
             )
-        }
-    }
-
-    /// Backend-managed notice: text arrives already localized; the optional
-    /// button either opens a plain URL or — for "lk:<go>" — mints a magic-login
-    /// and opens the web cabinet signed in.
-    private func noticeCard(_ n: Notice) -> some View {
-        let (icon, tint): (String, Color) = {
-            switch n.kind {
-            case "warn":    return ("clock", t.warn)
-            case "success": return ("check", t.success)
-            default:        return ("bell", t.accent)
-            }
-        }()
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(tint.opacity(0.16))
-                        .frame(width: 36, height: 36)
-                    QXIcon(name: icon, size: 18, color: tint, weight: .medium)
-                }
-                Text(n.title)
-                    .font(AppFont.ui(14, .semibold))
-                    .foregroundStyle(t.text)
-                Spacer()
-            }
-            if let body = n.body, !body.isEmpty {
-                Text(body)
-                    .font(AppFont.ui(13.5))
-                    .foregroundStyle(t.muted)
-                    .lineSpacing(3)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            if let urlStr = n.url, !urlStr.isEmpty {
-                Button(action: { openNoticeURL(urlStr) }) {
-                    HStack(spacing: 6) {
-                        Text(n.url_title?.isEmpty == false ? n.url_title! : String(localized: "Открыть"))
-                            .font(AppFont.ui(13.5, .semibold))
-                            .foregroundStyle(t.accent)
-                        QXIcon(name: "arrowR", size: 14, color: t.accent, weight: .semibold)
-                    }
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .padding(16)
-        .background(t.surface)
-        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-    }
-
-    private func openNoticeURL(_ raw: String) {
-        if raw.hasPrefix("lk:") {
-            let go = String(raw.dropFirst(3))
-            Task {
-                if let url = await session.lkSession(go: go.isEmpty ? "home" : go) {
-                    openURL(url)
-                }
-            }
-        } else if let url = URL(string: raw) {
-            openURL(url)
         }
     }
 
@@ -130,9 +71,15 @@ struct ConnectView: View {
             Text("Как подключиться")
                 .font(AppFont.ui(14, .semibold))
                 .foregroundStyle(t.text)
-            stepRow(1, "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша).")
-            stepRow(2, "Нажмите «Импортировать в Happ» — подписка добавится в приложение автоматически и в зашифрованном виде.")
-            stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
+            if isIncy {
+                stepRow(1, "Скачайте Incy из App Store кнопкой ниже.")
+                stepRow(2, "Нажмите «Импортировать в Incy» — подписка добавится в приложение автоматически.")
+                stepRow(3, "В Incy выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Incy.")
+            } else {
+                stepRow(1, "Скачайте Happ из App Store — кнопкой «Россия» или «Global» ниже (какая откроется — та ваша).")
+                stepRow(2, "Нажмите «Импортировать в Happ» — подписка добавится в приложение автоматически и в зашифрованном виде.")
+                stepRow(3, "В Happ выберите сервер и нажмите «Подключиться». Дальше VPN управляется в Happ.")
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
@@ -158,7 +105,7 @@ struct ConnectView: View {
         }
     }
 
-    private var happCard: some View {
+    private var clientCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
                 ZStack {
@@ -171,13 +118,13 @@ struct ConnectView: View {
                     Text("Импорт конфигурации")
                         .font(AppFont.ui(14, .semibold))
                         .foregroundStyle(t.text)
-                    Text("VPN работает в приложении Happ")
+                    Text(LX("VPN работает в приложении \(appName)"))
                         .font(AppFont.ui(12.5))
                         .foregroundStyle(t.muted)
                 }
                 Spacer()
             }
-            Text("Сначала установите Happ, затем нажмите «Импортировать в Happ» — подписка добавится автоматически и в зашифрованном виде.")
+            Text(LX("Сначала установите \(appName), затем нажмите «Импортировать в \(appName)» — подписка добавится автоматически."))
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
@@ -214,21 +161,30 @@ struct ConnectView: View {
     }
 
     // Import is blocked only when the server CONFIRMED there's no subscription.
-    // Offline (unknown) keeps it tappable — openInHapp fails over to the store.
+    // Offline (unknown) keeps it tappable — openInClient fails over to the store.
     private var importDisabled: Bool {
         importInFlight || (session.subscriptionURL == nil && session.subscriptionKnownEmpty)
     }
 
     private var actions: some View {
         VStack(spacing: 11) {
-            PrimaryButton(title: "Скачать Happ (Россия)", icon: "download",
-                          kind: .secondary) { openHappStore(russia: true) }
-            PrimaryButton(title: "Скачать Happ (Global)", icon: "download",
-                          kind: .secondary) { openHappStore(russia: false) }
+            if isIncy {
+                PrimaryButton(title: "Скачать Incy", icon: "download",
+                              kind: .secondary) { openIncyStore() }
+            } else {
+                PrimaryButton(title: "Скачать Happ (Россия)", icon: "download",
+                              kind: .secondary) { openHappStore(russia: true) }
+                PrimaryButton(title: "Скачать Happ (Global)", icon: "download",
+                              kind: .secondary) { openHappStore(russia: false) }
+            }
 
-            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в Happ",
+            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в \(appName)",
                           icon: "arrowR",
-                          action: { showImportNotice = true })
+                          action: {
+                              // The version advisory is Happ-specific (two store
+                              // listings, frequent takedowns) — Incy imports directly.
+                              if isIncy { openInClient() } else { showImportNotice = true }
+                          })
                 .disabled(importDisabled)
                 .opacity(importDisabled ? 0.55 : 1)
         }
@@ -293,34 +249,48 @@ struct ConnectView: View {
 
     // MARK: - Actions
 
-    private func openInHapp() {
+    private func openInClient() {
         guard !importInFlight else { return }
         importInFlight = true
         Task {
-            // The backend builds the encrypted happ://crypt5/… link (single
-            // source of truth — same logic the website uses). We just open it.
-            let link = await session.happImportLink()
+            // The backend builds the deep link for the configured client
+            // (happ://crypt5/… or incy://import/…) — single source of truth,
+            // same logic the website uses. We just open it.
+            let link = await session.importLink()
             await MainActor.run {
                 importInFlight = false
                 guard let link, let url = URL(string: link) else {
-                    openHappStore()   // no link → at least send them to install Happ
+                    openClientStore()   // no link → at least send them to install
                     return
                 }
                 openURL(url) { ok in
-                    if !ok { openHappStore() }   // Happ not installed
+                    if !ok { openClientStore() }   // client not installed
                 }
             }
         }
     }
 
+    /// Store fallback for the configured client (import failed / not installed).
+    private func openClientStore() {
+        if isIncy { openIncyStore() } else { openHappStore() }
+    }
+
+    private func openIncyStore() {
+        let link = session.connectConfig.stores?.incy
+            ?? "https://apps.apple.com/ru/app/incy/id6756943388"
+        if let url = URL(string: link) { openURL(url) }
+    }
+
     /// Explicit store link — used by the two user-facing download buttons.
     /// russia=true → the RU-only listing, false → the Global one.
+    /// Links come from the server config so a re-published listing (new bundle
+    /// id after a takedown) is fixable without an app update.
     private func openHappStore(russia: Bool) {
-        let region = russia ? "ru" : "us"
-        let appID  = russia ? "id6783623643" : "id6504287215"
-        if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
-            openURL(url)
-        }
+        let stores = session.connectConfig.stores
+        let link = (russia ? stores?.happ_ru : stores?.happ_global)
+            ?? (russia ? "https://apps.apple.com/ru/app/happ-proxy-utility/id6783623643"
+                       : "https://apps.apple.com/us/app/happ-proxy-utility/id6504287215")
+        if let url = URL(string: link) { openURL(url) }
     }
 
     /// Auto-detected store link (by real App Store storefront) — used by the
@@ -328,11 +298,7 @@ struct ConnectView: View {
     private func openHappStore() {
         Task {
             let ru = await AppStoreRegion.isRussia()
-            let region = ru ? "ru" : "us"
-            let appID  = ru ? "id6783623643" : "id6504287215"
-            if let url = URL(string: "https://apps.apple.com/\(region)/app/happ-proxy-utility/\(appID)") {
-                await MainActor.run { openURL(url) }
-            }
+            await MainActor.run { openHappStore(russia: ru) }
         }
     }
 
