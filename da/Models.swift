@@ -72,6 +72,16 @@ struct MeResponse: Codable {
     let subscription: Subscription?
 }
 
+/// Password recovery: /auth/forgot emails a 6-digit code (+ link), /auth/reset
+/// consumes it with the new password. Same endpoints the website uses.
+struct ForgotRequest: Codable { let email: String }
+struct ForgotResponse: Codable { let sent: Bool? }
+struct ResetCodeRequest: Codable {
+    let email: String
+    let code: String
+    let new_password: String
+}
+
 struct EmailCheckRequest: Codable { let email: String }
 struct EmailCheckResponse: Codable { let exists: Bool }
 struct RefreshRequest: Codable { let refresh_token: String }

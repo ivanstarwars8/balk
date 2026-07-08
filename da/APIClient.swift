@@ -154,6 +154,9 @@ actor APIClient {
             case "device_not_found":        return String(localized: "Устройство не найдено")
             case "invalid_go":              return String(localized: "Некорректный параметр")
             case "rate_limited":            return String(localized: "Слишком много запросов, попробуйте позже")
+            case "too_many_registrations":  return String(localized: "Слишком много регистраций. Если у вас уже есть аккаунт — войдите в него.")
+            case "reset_code_invalid":      return String(localized: "Неверный или устаревший код. Запросите новый.")
+            case "reset_token_expired":     return String(localized: "Код устарел. Запросите новый.")
             case "invalid_token", "token_revoked", "token_expired":
                                             return String(localized: "Сессия истекла")
             default: break

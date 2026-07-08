@@ -172,6 +172,39 @@ final class AuthSession: ObservableObject {
         }
     }
 
+    /// Ask the backend to email a 6-digit password-reset code. The server
+    /// always answers 200 (no account-existence leak) — false means only a
+    /// network/server failure.
+    func requestPasswordReset(email: String) async -> Bool {
+        lastError = nil
+        do {
+            let _: ForgotResponse = try await APIClient.shared.post(
+                "/auth/forgot", body: ForgotRequest(email: email), auth: false
+            )
+            return true
+        } catch {
+            lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            return false
+        }
+    }
+
+    /// Consume the emailed code and set a new password. On success the backend
+    /// revokes all refresh tokens, so the user signs in again with the new one.
+    func resetPassword(email: String, code: String, newPassword: String) async -> Bool {
+        lastError = nil
+        do {
+            let _: EmptyResponse = try await APIClient.shared.post(
+                "/auth/reset",
+                body: ResetCodeRequest(email: email, code: code, new_password: newPassword),
+                auth: false
+            )
+            return true
+        } catch {
+            lastError = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            return false
+        }
+    }
+
     /// Stable per-device identifier for registration anti-abuse. Lives in the
     /// Keychain, which iOS keeps across app deletion + reinstall — so "delete
     /// the app, sign up again, get another free trial" no longer works. NOT

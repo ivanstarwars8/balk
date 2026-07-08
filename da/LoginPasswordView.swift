@@ -8,6 +8,7 @@ struct LoginPasswordView: View {
 
     @State private var password: String = ""
     @State private var hidden: Bool = true
+    @State private var showForgot: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -48,9 +49,15 @@ struct LoginPasswordView: View {
                             .tracking(1)
                             .foregroundStyle(t.faint)
                         Spacer()
-                        Text("Забыли?")
-                            .font(AppFont.ui(12.5, .semibold))
-                            .foregroundStyle(t.accentText)
+                        Button {
+                            session.lastError = nil
+                            showForgot = true
+                        } label: {
+                            Text("Забыли?")
+                                .font(AppFont.ui(12.5, .semibold))
+                                .foregroundStyle(t.accentText)
+                        }
+                        .buttonStyle(.plain)
                     }
                     .padding(.bottom, 8)
 
@@ -97,5 +104,9 @@ struct LoginPasswordView: View {
         .padding(.top, 4)
         .padding(.bottom, 24)
         .frame(maxHeight: .infinity)
+        .sheet(isPresented: $showForgot) {
+            ForgotPasswordView(email: email)
+                .environmentObject(session)
+        }
     }
 }
