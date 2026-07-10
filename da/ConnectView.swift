@@ -30,9 +30,6 @@ struct ConnectView: View {
                         // there's no active subscription.
                         if !isIncy { happVersionCard }
                         actions
-                        if session.subscriptionURL == nil && session.subscriptionKnownEmpty {
-                            expiredCard
-                        }
                         stepsCard
                         extraDeviceCard
                     }
@@ -135,38 +132,6 @@ struct ConnectView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
-    private var expiredCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 10) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(t.warn.opacity(0.18))
-                        .frame(width: 36, height: 36)
-                    QXIcon(name: "clock", size: 18, color: t.warn, weight: .medium)
-                }
-                Text("Подписка не активна")
-                    .font(AppFont.ui(14, .semibold))
-                    .foregroundStyle(t.text)
-                Spacer()
-            }
-            Text("Подписка истекла или ещё не активна. Продлите её в личном кабинете — после этого конфигурация появится здесь автоматически.")
-                .font(AppFont.ui(13.5))
-                .foregroundStyle(t.muted)
-                .lineSpacing(3)
-        }
-        .padding(16)
-        .background(t.surface)
-        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(t.line, lineWidth: 1))
-        .clipShape(RoundedRectangle(cornerRadius: 18))
-    }
-
-    // The server CONFIRMED there is no active subscription (expired / none).
-    // Offline (unknown) is NOT treated as expired — the import stays tappable
-    // and openInClient fails over to the store.
-    private var subscriptionExpired: Bool {
-        session.subscriptionURL == nil && session.subscriptionKnownEmpty
-    }
-
     private var actions: some View {
         VStack(spacing: 11) {
             if isIncy {
@@ -179,25 +144,17 @@ struct ConnectView: View {
                               kind: .secondary) { openHappStore(russia: false) }
             }
 
-            if subscriptionExpired {
-                // No config to import while inactive — offer a working way to
-                // renew instead of a dead, greyed-out import button.
-                PrimaryButton(title: "Продлить в личном кабинете", icon: "arrowR") {
-                    Task {
-                        if let url = await session.lkSession(go: "home") { openURL(url) }
-                    }
-                }
-            } else {
-                PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в \(appName)",
-                              icon: "arrowR",
-                              action: {
-                                  // The version advisory is Happ-specific (two store
-                                  // listings, frequent takedowns) — Incy imports directly.
-                                  if isIncy { openInClient() } else { showImportNotice = true }
-                              })
-                    .disabled(importInFlight)
-                    .opacity(importInFlight ? 0.55 : 1)
-            }
+            // Import is ALWAYS available — the backend hands out the config even
+            // when the subscription is expired. Only disabled while in flight.
+            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в \(appName)",
+                          icon: "arrowR",
+                          action: {
+                              // The version advisory is Happ-specific (two store
+                              // listings, frequent takedowns) — Incy imports directly.
+                              if isIncy { openInClient() } else { showImportNotice = true }
+                          })
+                .disabled(importInFlight)
+                .opacity(importInFlight ? 0.55 : 1)
         }
     }
 
