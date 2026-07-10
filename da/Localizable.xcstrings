@@ -962,6 +962,7 @@
       }
     },
     "Конфигурация недоступна" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -972,6 +973,7 @@
       }
     },
     "Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка»." : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1518,6 +1520,16 @@
         }
       }
     },
+    "Подписка истекла или ещё не активна. Продлите её в личном кабинете — после этого конфигурация появится здесь автоматически." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your subscription has expired or isn’t active yet. Renew it in your account — the configuration will then appear here automatically."
+          }
+        }
+      }
+    },
     "Подписка истекла или отсутствует" : {
       "localizations" : {
         "en" : {
@@ -1529,7 +1541,6 @@
       }
     },
     "Подписка не активна" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1718,6 +1729,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Checking…"
+          }
+        }
+      }
+    },
+    "Продлить в личном кабинете" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew in your account"
           }
         }
       }

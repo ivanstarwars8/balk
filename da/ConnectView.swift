@@ -144,12 +144,12 @@ struct ConnectView: View {
                         .frame(width: 36, height: 36)
                     QXIcon(name: "clock", size: 18, color: t.warn, weight: .medium)
                 }
-                Text("Конфигурация недоступна")
+                Text("Подписка не активна")
                     .font(AppFont.ui(14, .semibold))
                     .foregroundStyle(t.text)
                 Spacer()
             }
-            Text("Конфигурация появится здесь автоматически. Если её нет — напишите нам в разделе «Поддержка».")
+            Text("Подписка истекла или ещё не активна. Продлите её в личном кабинете — после этого конфигурация появится здесь автоматически.")
                 .font(AppFont.ui(13.5))
                 .foregroundStyle(t.muted)
                 .lineSpacing(3)
@@ -160,10 +160,11 @@ struct ConnectView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
     }
 
-    // Import is blocked only when the server CONFIRMED there's no subscription.
-    // Offline (unknown) keeps it tappable — openInClient fails over to the store.
-    private var importDisabled: Bool {
-        importInFlight || (session.subscriptionURL == nil && session.subscriptionKnownEmpty)
+    // The server CONFIRMED there is no active subscription (expired / none).
+    // Offline (unknown) is NOT treated as expired — the import stays tappable
+    // and openInClient fails over to the store.
+    private var subscriptionExpired: Bool {
+        session.subscriptionURL == nil && session.subscriptionKnownEmpty
     }
 
     private var actions: some View {
@@ -178,15 +179,25 @@ struct ConnectView: View {
                               kind: .secondary) { openHappStore(russia: false) }
             }
 
-            PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в \(appName)",
-                          icon: "arrowR",
-                          action: {
-                              // The version advisory is Happ-specific (two store
-                              // listings, frequent takedowns) — Incy imports directly.
-                              if isIncy { openInClient() } else { showImportNotice = true }
-                          })
-                .disabled(importDisabled)
-                .opacity(importDisabled ? 0.55 : 1)
+            if subscriptionExpired {
+                // No config to import while inactive — offer a working way to
+                // renew instead of a dead, greyed-out import button.
+                PrimaryButton(title: "Продлить в личном кабинете", icon: "arrowR") {
+                    Task {
+                        if let url = await session.lkSession(go: "home") { openURL(url) }
+                    }
+                }
+            } else {
+                PrimaryButton(title: importInFlight ? "Готовим ссылку…" : "Импортировать в \(appName)",
+                              icon: "arrowR",
+                              action: {
+                                  // The version advisory is Happ-specific (two store
+                                  // listings, frequent takedowns) — Incy imports directly.
+                                  if isIncy { openInClient() } else { showImportNotice = true }
+                              })
+                    .disabled(importInFlight)
+                    .opacity(importInFlight ? 0.55 : 1)
+            }
         }
     }
 
